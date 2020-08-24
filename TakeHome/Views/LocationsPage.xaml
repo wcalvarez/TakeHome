@@ -1,0 +1,101 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:d="http://xamarin.com/schemas/2014/forms/design"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d"
+             xmlns:local="clr-namespace:TakeHome;assembly=TakeHome"
+             Title ="TakeHome"
+             x:Name="ThePage"
+             x:Class="TakeHome.Views.LocationsPage">
+    
+    <ContentPage.Content>
+        <StackLayout>
+            <StackLayout.Padding>
+                <OnPlatform x:TypeArguments="Thickness">
+                    <On Platform="iOS" Value="5,20,5,5" />
+                    <On Platform="Android" Value="5,0,5,5" />
+                    <On Platform="UWP" Value="10" />
+                </OnPlatform>
+            </StackLayout.Padding>
+            <StackLayout.Margin>
+                <OnPlatform x:TypeArguments="Thickness">
+                    <On Platform="iOS" Value="0,20,0,0" />
+                    <On Platform="Android, WinPhone, UWP" Value="0,0,0,0" />
+                </OnPlatform>
+            </StackLayout.Margin>
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="8*" />
+                    <RowDefinition Height="*" />
+                </Grid.RowDefinitions>
+
+                <BoxView BackgroundColor="#FFFFFF" VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand" />
+
+                <SearchBar Grid.Row="0" CancelButtonColor="#808080"  x:Name="searchText"
+                   PlaceholderColor="#C0C0C0" Placeholder="Type Restaurant Name" 
+                   SearchButtonPressed="SearchBar_SearchButtonPressed"  VerticalOptions="Center" />
+                <AbsoluteLayout VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand"  
+                                AbsoluteLayout.LayoutBounds="0,0,1,1"
+                                AbsoluteLayout.LayoutFlags="All" Grid.Row="1">
+                    <ListView x:Name ="lstView" ItemsSource="{Binding Locations}" VerticalOptions="StartAndExpand" ItemTapped="ShowProducts"
+                              IsPullToRefreshEnabled="True"
+                   Refreshing="ListItems_Refreshing">
+                        <ListView.ItemTemplate>
+                            <DataTemplate>
+                                <ViewCell>
+                                    <Grid x:Name="Item">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="8*"/>
+                                            <ColumnDefinition Width="*"/>
+                                        </Grid.ColumnDefinitions>
+                                        <Label Text = "{Binding LocationName}"
+                                            VerticalOptions="CenterAndExpand"
+                                            HorizontalOptions="Start"
+                                            x:Name="txtProductImage"
+                                            WidthRequest="300"
+                                            HeightRequest="100"
+                                            Margin="10,0,0,0"
+                                            FontSize="Subtitle"
+                                            Grid.Column="0"/>
+                                        <Label Text="{Binding CityStateZip}" Grid.Row="1"
+                                            x:Name="locationName"
+                                            FontSize="Small"
+                                               Margin="10,0,0,0"
+                                            TextColor="Black"
+                                            VerticalOptions="Center"
+                                            HorizontalOptions="Start"
+                                        Grid.Column="0"/>
+                                        <ImageButton Source="icons8_info_30.png"   Grid.Row="0"
+                                         VerticalOptions="Center"
+                                         Aspect="Fill"        
+                                            WidthRequest="30"
+                                            HeightRequest="100"
+                                         x:Name="locdetail"
+                                          Clicked="OnImageButtonClicked"
+                                         BindingContext="{Binding Source={x:Reference lstView}, Path=BindingContext}"   
+                                                     Command="{Binding LocationDetailCommand}"   
+                                                     CommandParameter="{Binding Source={x:Reference Item}, Path=BindingContext}"       
+                                                     HorizontalOptions="Center"
+                                         Grid.Column="1"/>
+                                    </Grid>
+                                </ViewCell>
+                            </DataTemplate>
+                    </ListView.ItemTemplate>
+                </ListView>
+                </AbsoluteLayout>
+
+                <StackLayout IsVisible="{Binding Source={x:Reference ThePage}, Path=IsBusy}"
+                    HorizontalOptions="Center" VerticalOptions="CenterAndExpand" Padding="20">
+                    <Label Text="Loading Data..." TextColor="Gray" HorizontalOptions="Center" />
+                    <ActivityIndicator IsRunning="{Binding Source={x:Reference ThePage}, Path=IsBusy}" Color="Accent" >
+                    </ActivityIndicator>
+                </StackLayout>
+            </Grid>
+            <!--<Label x:Name="zerolocations" FontSize="Small" IsVisible="False"
+                HorizontalOptions="CenterAndExpand" />-->
+        </StackLayout>
+    </ContentPage.Content>
+
+</ContentPage>

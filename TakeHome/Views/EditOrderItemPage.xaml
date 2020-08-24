@@ -1,0 +1,57 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:d="http://xamarin.com/schemas/2014/forms/design"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:local="clr-namespace:TakeHome.Services;assembly=TakeHome"
+             mc:Ignorable="d"
+             Title="Edit Order"
+             x:Class="TakeHome.Views.EditOrderItemPage"
+             NavigationPage.HasNavigationBar="false" NavigationPage.HasBackButton="false">
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <local:ByteArrayToImageSourceConverter x:Key="ByteArrayToImage" />
+        </ResourceDictionary>
+    </ContentPage.Resources>
+    <ContentPage.Content>
+        <StackLayout Spacing="10">
+            <StackLayout.Padding>
+                <OnPlatform x:TypeArguments="Thickness">
+                    <On Platform="iOS" Value="5,20,5,5" />
+                    <On Platform="Android" Value="5,0,5,5" />
+                    <On Platform="UWP" Value="10" />
+                </OnPlatform>
+            </StackLayout.Padding>
+            <local:NavigationBarView x:Name="NavigationBarView" Title="{Binding Title}"  />
+            <StackLayout Padding="10,5,0,5" BackgroundColor="#f7e9be">
+                <Label Text="{Binding Location}" x:Name="storename" Font="Bold" FontSize="Subtitle" HorizontalOptions="CenterAndExpand"/>
+            </StackLayout>
+            <Label Text="{Binding ItemName}"  
+                HorizontalOptions="CenterAndExpand" FontSize="Medium" FontAttributes="Bold" VerticalOptions="Start" TextColor="CadetBlue"/>
+            <!--<Image HeightRequest="300" WidthRequest="500" x:Name="image"
+                        Source="{Binding SmallImage, Converter={StaticResource ByteArrayToImage}}"
+                        HorizontalOptions="Center"
+                        VerticalOptions="Start"
+                        Aspect="AspectFit" />-->
+            <!--<Label Text="{Binding Description}"
+                VerticalOptions="End" 
+                HorizontalOptions="CenterAndExpand" />-->
+            <StackLayout Orientation="Horizontal" VerticalOptions="End" HorizontalOptions="CenterAndExpand">
+                <Label Text="Quantity:"
+                    VerticalOptions="End" 
+                    HorizontalOptions="Start" />
+                <local:DoneEntry x:Name="EditQuantity" 
+                    Keyboard="Numeric"
+                    Text="{Binding Quantity}" TextColor="Black" 
+                    VerticalOptions="CenterAndExpand" 
+                    HorizontalOptions="EndAndExpand" 
+                    WidthRequest="50" />
+            </StackLayout>
+            <!--<Label Text="{Price: Binding currencyAmount}"  
+                HorizontalOptions="CenterAndExpand" />-->
+
+            <Button Text="Cancel"  BackgroundColor="#287cbe"  TextColor="White" Clicked="OnClickCancel" VerticalOptions="End" />
+            <Button Text="Save"  BackgroundColor="#287cbe"  TextColor="White" Clicked="OnClickSave"  VerticalOptions="End"/>
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>

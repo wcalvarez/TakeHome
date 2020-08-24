@@ -1,0 +1,96 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:d="http://xamarin.com/schemas/2014/forms/design"
+             xmlns:behavior="clr-namespace:TakeHome.Services"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:local="clr-namespace:TakeHome.Services"
+             Title="Addresses"
+             mc:Ignorable="d"
+             x:Class="TakeHome.Views.AddressPage">
+    <ContentPage.Content>
+        <StackLayout BackgroundColor="#f1f2d2">
+            <StackLayout.Padding>
+                <OnPlatform x:TypeArguments="Thickness">
+                    <On Platform="iOS" Value="5,20,5,5" />
+                    <On Platform="Android" Value="5,0,5,5" />
+                    <On Platform="UWP" Value="10" />
+                </OnPlatform>
+            </StackLayout.Padding>
+            <StackLayout.Margin>
+                <OnPlatform x:TypeArguments="Thickness">
+                    <On Platform="iOS" Value="0,20,0,0" />
+                    <On Platform="Android, WinPhone, UWP" Value="0,0,0,0" />
+                </OnPlatform>
+            </StackLayout.Margin>
+            <Label Text="Save Delivery Addresses"></Label>
+            <Entry Placeholder="Recipient Name" x:Name="Recipient">
+                <Entry.Keyboard>
+                    <Keyboard x:FactoryMethod="Create">
+                        <x:Arguments>
+                            <KeyboardFlags>CapitalizeSentence</KeyboardFlags>
+                        </x:Arguments>
+                    </Keyboard>
+                </Entry.Keyboard>
+            </Entry>
+            <Entry Placeholder="Street Address" x:Name="Address1"></Entry>
+            <StackLayout Orientation="Horizontal" Spacing="8">
+                <Entry Placeholder="City......" x:Name="City" WidthRequest="50" HorizontalOptions="FillAndExpand">
+                    <Entry.Keyboard>
+                        <Keyboard x:FactoryMethod="Create">
+                            <x:Arguments>
+                                <KeyboardFlags>Suggestions,CapitalizeWord</KeyboardFlags>
+                            </x:Arguments>
+                        </Keyboard>
+                    </Entry.Keyboard>
+                </Entry>
+                <Entry Placeholder="Zipcode" x:Name="Zipcode" WidthRequest="30" HorizontalOptions="FillAndExpand"></Entry>
+            </StackLayout>
+
+            <StackLayout Orientation="Horizontal" Spacing="8">
+
+                <Picker x:Name="countrypicker"   
+                        Title="Select a Country" 
+                        ItemsSource="{Binding Countries}" 
+                        ItemDisplayBinding="{Binding Name}" 
+                        SelectedItem="{Binding SelectedCountry}"
+                         SelectedIndexChanged="OnPickerSelectedIndexChanged"/>
+                <Picker x:Name="statepicker"   
+                        Title="Select State/Province" 
+                        ItemsSource="{Binding States}" 
+                        ItemDisplayBinding="{Binding Name}" 
+                        SelectedItem="{Binding SelectedState}"/>
+
+            </StackLayout>
+
+            <StackLayout Orientation="Horizontal">
+                <Entry Placeholder="Email Address" x:Name="EmailAddress" WidthRequest="50" HorizontalOptions="FillAndExpand" Keyboard="Email"></Entry>
+                <local:DoneEntry Placeholder="Phone Number" x:Name="PhoneNumber" WidthRequest="50" HorizontalOptions="FillAndExpand" 
+                       Keyboard="Numeric">
+                    <local:DoneEntry.Behaviors>
+                        <behavior:MaskedBehavior Mask="(XXX) XXX-XXXX" />
+                    </local:DoneEntry.Behaviors>
+
+                </local:DoneEntry>
+            </StackLayout>
+
+            <Button Text="ADD Address" Clicked="OnAddAddress"></Button>
+
+            <Label Text="Saved Addresses" VerticalOptions="End"></Label>
+            <ScrollView>
+                <ListView VerticalOptions="EndAndExpand" x:Name="mylistview" ItemsSource="{Binding}" ItemSelected="OnSelection">
+                    <ListView.ItemTemplate>
+                        <DataTemplate>
+                            <TextCell Text="{Binding Recipient}" Detail="{Binding FullAddress}">
+                                <TextCell.ContextActions>
+                                    <MenuItem Clicked="OnDelete" Text="Delete" IsDestructive="true" CommandParameter="{Binding .}" />
+                                    <MenuItem Clicked="OnMore" Text="More" CommandParameter="{Binding .}" />
+                                </TextCell.ContextActions>
+                            </TextCell>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                </ListView>
+            </ScrollView>
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>

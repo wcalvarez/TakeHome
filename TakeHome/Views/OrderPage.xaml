@@ -1,0 +1,86 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:d="http://xamarin.com/schemas/2014/forms/design"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:local="clr-namespace:TakeHome.Services;assembly=TakeHome"
+             mc:Ignorable="d"
+             Shell.PresentationMode="ModalAnimated"
+             NavigationPage.HasNavigationBar="false" NavigationPage.HasBackButton="false"
+             x:Class="TakeHome.Views.OrderPage">
+    
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <local:AmountToCurrencyStringConverter x:Key="DecimalAmountToCurrency" />
+            <x:String x:Key="SubTotal">Subtotal:</x:String>
+        </ResourceDictionary>
+    </ContentPage.Resources>
+    <ContentPage.Content>
+        <StackLayout Spacing="10">
+            <StackLayout.Padding>
+                <OnPlatform x:TypeArguments="Thickness">
+                    <On Platform="iOS" Value="5,20,5,5" />
+                    <On Platform="Android" Value="5,0,5,5" />
+                    <On Platform="UWP" Value="10" />
+                </OnPlatform>
+            </StackLayout.Padding>
+            <StackLayout.Margin>
+                <OnPlatform x:TypeArguments="Thickness">
+                    <On Platform="iOS" Value="0,20,0,0" />
+                    <On Platform="Android, WinPhone, UWP" Value="0,0,0,0" />
+                </OnPlatform>
+            </StackLayout.Margin>
+            <local:NavigationBarView x:Name="NavigationBarView" Title="Your Order"  />
+
+            <StackLayout VerticalOptions="Fill">
+                <Grid>
+                <ListView  ItemsSource="{Binding}"
+                           SelectedItem="{Binding OrderDetail, Mode=TwoWay}"
+                           ItemSelected="OnSelection">
+                    <ListView.Header>
+                        <StackLayout Padding="10,5,0,5" BackgroundColor="#f7e9be">
+                            <Label Text="{Binding Location}" x:Name="storename" Font="Bold" FontSize="Subtitle" HorizontalOptions="CenterAndExpand"/>
+                        </StackLayout>
+                    </ListView.Header>
+                    <ListView.ItemTemplate>
+
+                        <DataTemplate>
+                            <ViewCell>
+                                <ViewCell.ContextActions>
+                                    <!-- CommandParameter is the command to pass to the clicked event handler. Because these are menu items, 
+							not cells managed by the ListView, CommandParameter is neccesary to determine which 
+							cell the context action was taken on. -->
+                                    <!--<MenuItem Clicked="OnMore" Text="More" CommandParameter="{Binding .}" />-->
+                                    <MenuItem Clicked="OnDelete" Text="Delete" IsDestructive="true" CommandParameter="{Binding .}" />
+                                </ViewCell.ContextActions>
+
+                                <Grid Padding="15,0,15,0">
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="*" />
+                                        <RowDefinition Height="*" />
+                                    </Grid.RowDefinitions>
+
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*" />
+                                        <ColumnDefinition Width="Auto" />
+                                    </Grid.ColumnDefinitions>
+
+                                    <Label x:Name="TextLabel" Grid.Row="0" Grid.Column="0" Text="{Binding ItemName}" TranslationY="2" FontAttributes="Bold" FontSize="15"/>
+                                    <!--<Label x:Name="RightTextLabel" Grid.Row="0" Grid.Column="1" Grid.RowSpan="2" VerticalOptions="Center" Text="{Binding Amount, Converter={StaticResource DecimalAmountToCurrency}}" TextColor="Accent" />-->
+                                    <Label x:Name="RightTextLabel" Grid.Row="0" Grid.Column="1" Grid.RowSpan="2" VerticalOptions="Center" Text="{Binding currencyAmount}" TextColor="Accent" />
+                                    <Label x:Name="DetailLabel" Grid.Row="1" Grid.Column="0" Text="{Binding LineAmounts}" FontSize="Small" TextColor="Accent" TranslationY="-5" />
+                                </Grid>
+                            </ViewCell>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                </ListView>
+                </Grid>
+            </StackLayout>
+            <StackLayout>
+                <Label Text="{DynamicResource SubTotal}" HorizontalOptions="CenterAndExpand"    TextColor="Black" FontSize="15"/>
+            <!--<Label x:Name="SubTotal" Text="{Binding Amount, Converter={StaticResource DecimalAmountToCurrency}}" HorizontalOptions="CenterAndExpand"    TextColor="Black" FontSize="Medium"/>-->
+                <Button Text="Checkout"  BackgroundColor="#287cbe"  TextColor="White" Clicked="OnClickCheckout"/>
+            </StackLayout>
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>

@@ -1,0 +1,36 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:d="http://xamarin.com/schemas/2014/forms/design"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d"
+             Title="My Profile"
+             x:Class="TakeHome.Views.MyProfilePage">
+    <ContentPage.Content>
+        <StackLayout VerticalOptions="StartAndExpand" Spacing="10">
+            <StackLayout.Padding>
+                <OnPlatform x:TypeArguments="Thickness">
+                    <On Platform="iOS" Value="5,20,5,5" />
+                    <On Platform="Android" Value="5,0,5,5" />
+                    <On Platform="UWP" Value="10" />
+                </OnPlatform>
+            </StackLayout.Padding>
+            <Label Text="My mobileOrders Number" />
+            <Entry x:Name="mobileOrdersNumber"  IsEnabled="false"/>
+            <Label Text="Email address" />
+            <Entry x:Name="emailEntry" IsEnabled="false"/>
+            <Label Text="Password" IsVisible="False"/>
+            <Entry x:Name="passwordEntry" IsPassword="true" IsVisible="False"/>
+            <Label Text="Firstname" />
+            <Entry x:Name="firstnameEntry" IsEnabled="false"/>
+            <Label Text="Lastname" />
+            <Entry x:Name="lastnameEntry" IsEnabled="false"/>
+            <Label Text="Phone Number" />
+            <Entry x:Name="phonenumberEntry" IsEnabled="false"/>
+
+            <!--<Button Text="Save" Clicked="OnSaveButtonClicked" />-->
+            <Button Text="Exit" Clicked="OnExitButtonClicked" BackgroundColor="#287cbe"  TextColor="White"/>
+            <Label x:Name="messageLabel" />
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>

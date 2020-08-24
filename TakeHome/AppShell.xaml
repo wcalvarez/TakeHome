@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Shell xmlns="http://xamarin.com/schemas/2014/forms" 
+       xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+       xmlns:controls="clr-namespace:TakeHome.Controls"
+       
+       xmlns:d="http://xamarin.com/schemas/2014/forms/design"
+       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+       mc:Ignorable="d"
+       xmlns:local="clr-namespace:TakeHome.Views"
+       Title="TakeHome"
+       x:Class="TakeHome.AppShell">
+
+    <!-- 
+        Styles and Resources 
+    -->
+    <Shell.Resources>
+        <ResourceDictionary>
+            <Color x:Key="NavigationPrimary">#2196F3</Color>
+            <Style x:Key="BaseStyle" TargetType="Element">
+                <Setter Property="Shell.BackgroundColor" Value="{StaticResource NavigationPrimary}" />
+                <Setter Property="Shell.ForegroundColor" Value="White" />
+                <Setter Property="Shell.TitleColor" Value="White" />
+                <Setter Property="Shell.DisabledColor" Value="#B4FFFFFF" />
+                <Setter Property="Shell.UnselectedColor" Value="#95FFFFFF" />
+                <Setter Property="Shell.TabBarBackgroundColor" Value="{StaticResource NavigationPrimary}" />
+                <Setter Property="Shell.TabBarForegroundColor" Value="White"/>
+                <Setter Property="Shell.TabBarUnselectedColor" Value="#95FFFFFF"/>
+                <Setter Property="Shell.TabBarTitleColor" Value="White"/>
+            </Style>
+            <Style x:Key="DomesticShell"
+               TargetType="Element" 
+               BasedOn="{StaticResource BaseStyle}">
+                <Setter Property="Shell.BackgroundColor" 
+                    Value="#039BE6" />
+            </Style>
+            
+            <Style x:Key="AboutShell" 
+               TargetType="Element" 
+               BasedOn="{StaticResource BaseStyle}">
+                <Setter Property="Shell.BackgroundColor" 
+                    Value="#96d1ff" />
+            </Style>
+            <Style TargetType="TabBar" BasedOn="{StaticResource BaseStyle}" />
+        </ResourceDictionary>
+        
+    </Shell.Resources>
+    
+    <Shell.FlyoutHeader>
+        <controls:FlyoutHeader />
+    </Shell.FlyoutHeader>
+
+    <FlyoutItem Route="main"
+                Title="Stores"
+                FlyoutDisplayOptions="AsMultipleItems">
+        
+        <Tab 
+             Route="stores" Title="Stores"
+             Icon="icons8_online_store_26.png">
+            
+            
+            <ShellContent Route="locations"
+                          Style="{StaticResource DomesticShell}"
+                          Title="restaurants"
+                          Icon="store_icon_32_23.png"
+                          ContentTemplate="{DataTemplate local:LocationsPage}" />
+            
+
+        </Tab>
+
+
+        <!--<ShellContent Route="Restaurants"
+                          Style="{StaticResource DomesticShell}"
+                          Title="Stores"
+                          Icon="store_icon_32_23.png"
+                          ContentTemplate="{DataTemplate local:LocationsPage}" />-->
+
+        <ShellContent Route="order" x:Name="cart" 
+                      Icon="icons8_shopping_cart_26.png"
+                      Style="{StaticResource DomesticShell}"
+                      Title="Order"
+                      ContentTemplate="{DataTemplate local:OrderPage}" />
+        
+
+
+
+    </FlyoutItem>
+
+    
+    <!-- Your Pages -->
+    <TabBar>
+        <Tab Title="Stores" Route="stores_tab" Icon="store_icon_32_23.png">
+            <ShellContent ContentTemplate="{DataTemplate local:LocationsPage}" />
+        </Tab>
+        <Tab Title="About" Icon="tab_about.png">
+            <ShellContent ContentTemplate="{DataTemplate local:AboutPage}" />
+        </Tab>
+    </TabBar>
+
+    <!-- Optional Templates 
+    // These may be provided inline as below or as separate classes.
+
+    // This header appears at the top of the Flyout.
+    <Shell.FlyoutHeaderTemplate>
+        <DataTemplate>
+            <Grid>ContentHere</Grid>
+        </DataTemplate>
+    </Shell.FlyoutHeaderTemplate>
+
+    // ItemTemplate is for ShellItems as displayed in a Flyout
+    <Shell.ItemTemplate>
+        <DataTemplate>
+            <ContentView>
+                Bindable Properties: Title, Icon
+            </ContentView>
+        </DataTemplate>
+    </Shell.ItemTemplate>
+
+    // MenuItemTemplate is for MenuItems as displayed in a Flyout
+    <Shell.MenuItemTemplate>
+        <DataTemplate>
+            <ContentView>
+                Bindable Properties: Text, Icon
+            </ContentView>
+        </DataTemplate>
+    </Shell.MenuItemTemplate>
+
+    -->
+    <ShellContent Route="login"
+                  x:Name="login_item"
+                  Style="{StaticResource DomesticShell}"
+                  Title="Login"
+                  ContentTemplate="{DataTemplate local:LoginPage}" />
+
+
+
+    <MenuItem Text="Help"
+              Icon="help.png"
+              Command="{Binding HelpCommand}"
+              CommandParameter="https://docs.microsoft.com/xamarin/xamarin-forms/app-fundamentals/shell" />
+</Shell>

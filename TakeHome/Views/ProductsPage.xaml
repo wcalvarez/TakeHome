@@ -1,0 +1,87 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:d="http://xamarin.com/schemas/2014/forms/design"
+             xmlns:views="clr-namespace:TakeHome.Views;assembly=TakeHome"
+             xmlns:services="clr-namespace:TakeHome.Services;assembly=TakeHome"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             x:Name="ThePage"
+             mc:Ignorable="d"
+             x:Class="TakeHome.Views.ProductsPage"
+                NavigationPage.HasNavigationBar="false" NavigationPage.HasBackButton="false"
+                          Title="Products">
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <services:ByteArrayToImageSourceConverter x:Key="ByteArrayToImage" />
+        </ResourceDictionary>
+    </ContentPage.Resources>
+    <StackLayout VerticalOptions="Fill">
+        <!--<StackLayout Spacing="10">-->
+        <StackLayout.Padding>
+            <OnPlatform x:TypeArguments="Thickness">
+                <On Platform="iOS" Value="5,20,5,5" />
+                <On Platform="Android" Value="5,0,5,5" />
+                <On Platform="UWP" Value="10" />
+            </OnPlatform>
+        </StackLayout.Padding>
+        <StackLayout.Margin>
+            <OnPlatform x:TypeArguments="Thickness">
+                <On Platform="iOS" Value="0,20,0,0" />
+                <On Platform="Android, WinPhone, UWP" Value="0,0,0,0" />
+            </OnPlatform>
+        </StackLayout.Margin>
+        <views:NavigationBarView x:Name="NavigationBarView" Title ="{Binding Title}"  />
+        <Grid>
+            <!--<Grid.RowDefinitions>
+                <RowDefinition Height="2*" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>-->
+
+            <!--<StackLayout IsVisible="{Binding Source={x:Reference ThePage}, Path=IsBusy}"
+                    HorizontalOptions="Center" VerticalOptions="CenterAndExpand" Padding="20">
+                <Label Text="Loading Data..." TextColor="Gray" HorizontalOptions="Center" />
+                <ActivityIndicator IsRunning="{Binding Source={x:Reference ThePage}, Path=IsBusy}" Color="Accent" >
+                </ActivityIndicator>
+            </StackLayout>-->
+            <ListView x:Name ="lstView" IsGroupingEnabled="true"  
+                  GroupShortNameBinding="{Binding ShortName}"
+                   
+                   SeparatorColor="DarkGreen"
+                   SelectedItem="{Binding Product, Mode=TwoWay}"
+                   ItemSelected="ProductSelected">
+                <ListView.Header>
+                    <StackLayout Padding="10,5,0,5" BackgroundColor="#f7e9be">
+                        <Label Text="{Binding Location}" x:Name="storename" Font="Bold" FontSize="Subtitle" HorizontalOptions="CenterAndExpand"/>
+                    </StackLayout>
+                </ListView.Header>
+
+                <ListView.ItemTemplate>
+                     
+                    <DataTemplate>
+                        <ImageCell Text="{Binding Name}" Detail="{Binding UomPrices}" 
+                                   ImageSource="{Binding SmallImage, Converter={StaticResource ByteArrayToImage}}"/>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+                
+                <ListView.GroupHeaderTemplate>
+                    <DataTemplate>
+                        <ViewCell>
+                            <StackLayout BackgroundColor="LightGray">
+                                <Label Text="{Binding LongName}" TextColor="Black" FontAttributes="Bold" FontSize="Medium" HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand"/>
+                            </StackLayout>
+                        </ViewCell>
+                    </DataTemplate>
+                </ListView.GroupHeaderTemplate>
+                <!--<ListView.BackgroundColor>Blue</ListView.BackgroundColor>-->
+                <!-- End Group Header Customization -->
+            </ListView>
+
+        </Grid>
+        <StackLayout IsVisible="{Binding Source={x:Reference ThePage}, Path=IsBusy}"
+                    HorizontalOptions="Center" VerticalOptions="CenterAndExpand" Padding="20">
+            <Label Text="Loading Data..." TextColor="Gray" HorizontalOptions="Center" />
+            <ActivityIndicator IsRunning="{Binding Source={x:Reference ThePage}, Path=IsBusy}" Color="Accent" >
+            </ActivityIndicator>
+        </StackLayout>
+    </StackLayout>
+</ContentPage>

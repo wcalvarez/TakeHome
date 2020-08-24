@@ -1,0 +1,33 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:d="http://xamarin.com/schemas/2014/forms/design"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d"
+             Title="Login"
+             Shell.PresentationMode="ModalAnimated"
+             x:Class="TakeHome.Views.LoginPage">
+    <ContentPage.Content>
+        <!--<AbsoluteLayout>-->
+        <StackLayout VerticalOptions="StartAndExpand" Spacing="10">
+            <StackLayout.Padding>
+                <OnPlatform x:TypeArguments="Thickness">
+                    <On Platform="iOS" Value="5,20,5,5" />
+                    <On Platform="Android" Value="5,0,5,5" />
+                    <On Platform="UWP" Value="10" />
+                </OnPlatform>
+            </StackLayout.Padding>
+            <Label x:Name="OrgName" FontSize="Medium"
+                HorizontalOptions="CenterAndExpand" />
+            <Label x:Name="emailLabel" Text="Email:" Font="Bold"  VerticalTextAlignment="Center"/>
+            <Entry x:Name="emailEntry" Keyboard="Email"  VerticalOptions="Center"/>
+
+            <Label Text="Password:" Font="Bold" VerticalTextAlignment="Center"/>
+            <Entry x:Name="passwordEntry" IsPassword="true" VerticalOptions="Center"/>
+            <Button Text="Forgot?" Clicked="OnForgotButtonClicked" HorizontalOptions="Start" />
+            <Button Text="Login" Clicked="OnLoginButtonClicked" VerticalOptions="End" BackgroundColor="#287cbe"  TextColor="White"/>
+            <Label x:Name="messageLabel"  />
+        </StackLayout>
+        <!--</AbsoluteLayout>-->
+    </ContentPage.Content>
+</ContentPage>

@@ -1,0 +1,508 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:d="http://xamarin.com/schemas/2014/forms/design"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:behavior="clr-namespace:TakeHome.Services"
+             xmlns:fastEntry="clr-namespace:XamarinFastEntrySample.FastEntry;assembly=XamarinFastEntry.Behaviors"
+             xmlns:local="clr-namespace:TakeHome.Services"
+             mc:Ignorable="d"
+             Title="CheckOut"
+             NavigationPage.HasNavigationBar="false" NavigationPage.HasBackButton="false"
+             x:Class="TakeHome.Views.CheckOutPage" x:Name="CheckOut">
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <local:AmountToCurrencyStringConverter x:Key="DecimalAmountToCurrency" />
+            <x:String x:Key="SubTotal">Subtotal:</x:String>
+            <x:String x:Key="OrderSummary">OrderSummary:</x:String>
+            <x:String x:Key="Tax">Tax:</x:String>
+            <x:String x:Key="OrderTotal">Order Total:</x:String>
+            <x:String x:Key="ExpiryDate">1203</x:String>
+            <x:String x:Key="CVV">123</x:String>
+        </ResourceDictionary>
+    </ContentPage.Resources>
+
+    <ContentPage.Content>
+        <AbsoluteLayout>
+            <StackLayout Spacing="10">
+                <StackLayout.Padding>
+                    <OnPlatform x:TypeArguments="Thickness">
+                        <On Platform="iOS" Value="5,20,5,5" />
+                        <On Platform="Android" Value="5,0,5,5" />
+                        <On Platform="UWP" Value="10" />
+                    </OnPlatform>
+                </StackLayout.Padding>
+                <StackLayout.Margin>
+                    <OnPlatform x:TypeArguments="Thickness">
+                        <On Platform="iOS" Value="0,20,0,0" />
+                        <On Platform="Android, WinPhone, UWP" Value="0,0,0,0" />
+                    </OnPlatform>
+                </StackLayout.Margin>
+                
+                <local:NavigationBarView x:Name="NavigationBarView" Title="{Binding Title}"  />
+                <StackLayout Padding="10,5,0,5" BackgroundColor="#f7e9be">
+                    <Label Text="{Binding Location}" x:Name="storename" Font="Bold" FontSize="Subtitle"/>
+                </StackLayout>
+                <Label Text="{DynamicResource OrderSummary}"
+                VerticalOptions="Start" 
+                HorizontalOptions="Start"  Font="Bold, Large"/>
+                <Grid Padding="15,0,15,0" BackgroundColor="BlanchedAlmond">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="Auto" />
+                    </Grid.ColumnDefinitions>
+
+                    <Label x:Name="SubTotalLabel" Grid.Row="0" Grid.Column="0" Text="Subtotal" TranslationY="2" Font="Bold, Medium"/>
+                    <Label Grid.Row="1" Grid.Column="0" Text="Sales Tax:" TranslationY="2" x:Name="TaxLabel" Font="Bold, Medium"/>
+                    <Label x:Name="GrandTotalLabel" Grid.Row="2" Grid.Column="0" Text="Order Total" TranslationY="2" Font="Bold, Large"/>
+                </Grid>
+                
+                <Label Text="Payment:" FontSize="Medium" FontAttributes="Bold" />
+                <StackLayout>
+                    <Frame HasShadow="false"
+                      Padding="5"
+                      BorderColor="Crimson"
+                             Margin="15,0,0,0" HorizontalOptions="Start" WidthRequest="300">
+                        <StackLayout>
+
+                            <local:DoneEntry x:Name="CardNumber"  TabIndex="1"
+                                             Placeholder="credit card number" Keyboard="Numeric" TranslationY="2" FontSize="Medium"  HeightRequest="150">
+                                <Entry.HeightRequest>
+                                    <OnPlatform x:TypeArguments="x:Double">
+                                        <On Platform="iOS">35</On>
+                                        <On Platform="Android,Windows">40</On>
+                                    </OnPlatform>
+                                </Entry.HeightRequest>
+                                <Entry.Behaviors>
+                                    <fastEntry:XamarinFastEntryBehaviour Mask="####-####-####-####" 
+                                                                       MaxLength="19"/>
+                                </Entry.Behaviors>
+                            
+                            </local:DoneEntry>
+                        </StackLayout>
+                    </Frame>
+
+                    <Frame HasShadow="false"
+                      Padding="5"
+                      BorderColor="Crimson"
+                             Margin="15,0,0,0" HorizontalOptions="Start" WidthRequest="300">
+                        <StackLayout Orientation="Horizontal">
+                            <Label Text="Expiration:" x:Name="expire" Font="Bold, Medium"/>
+                    
+                            <StackLayout Spacing="8" Orientation="Horizontal">
+                                <local:DoneEntry x:Name="ExpMMYR"  Placeholder="mm/yr"  Keyboard="Numeric" HorizontalOptions="Start" FontSize="Medium" TabIndex="2">
+                                    <Entry.HeightRequest>
+                                        <OnPlatform x:TypeArguments="x:Double">
+                                            <On Platform="iOS">35</On>
+                                            <On Platform="Android,Windows">40</On>
+                                        </OnPlatform>
+                                    </Entry.HeightRequest>
+                                    <Entry.Behaviors>
+                                        <fastEntry:XamarinFastEntryBehaviour Mask="##/##" 
+                                                                       MaxLength="5"/>
+                                    </Entry.Behaviors>
+                                </local:DoneEntry>
+                                
+                                <local:DoneEntry x:Name="Cvc"  Placeholder="Cvc"  Keyboard="Numeric" HorizontalOptions="End" FontSize="Medium" TabIndex="3">
+                            <Entry.HeightRequest>
+                                <OnPlatform x:TypeArguments="x:Double">
+                                    <On Platform="iOS">35</On>
+                                    <On Platform="Android,Windows">40</On>
+                                </OnPlatform>
+                            </Entry.HeightRequest>
+                        </local:DoneEntry>
+                    </StackLayout>
+                        </StackLayout>
+                    </Frame>
+                </StackLayout>
+                <Frame HasShadow="false" x:Name="pickup_time" IsVisible="false"
+                      Padding="5"
+                      BorderColor="Crimson"
+                             Margin="15,0,0,0" HorizontalOptions="Start" WidthRequest="300">
+                <StackLayout Orientation="Horizontal">
+                    <Label Text="Pickup Time:in 20 mins" FontAttributes="Bold"/>
+                    <TimePicker x:Name="_timePicker" HorizontalOptions="Center" 
+                    Time="11:00"
+                                
+                                
+                    Format="T"
+                    PropertyChanged="OnTimePickerPropertyChanged" />
+                </StackLayout>
+                </Frame>
+                <StackLayout>
+                    <StackLayout Orientation="Horizontal">
+                        <Label Text="Referral Credits"  x:Name="reflabel" IsVisible="False"></Label>
+                    </StackLayout>
+                    <StackLayout Orientation="Horizontal" Spacing="8">
+                        <Label  x:Name="refcredit" IsVisible="False" HorizontalTextAlignment="Center" WidthRequest="50" HorizontalOptions="FillAndExpand" VerticalTextAlignment="Center" VerticalOptions="CenterAndExpand"></Label>
+                        <local:DoneEntry  x:Name="useamount"  Placeholder="use_amount" Keyboard="Numeric" IsVisible="False"  WidthRequest="50" HorizontalOptions="FillAndExpand" VerticalOptions="CenterAndExpand"></local:DoneEntry>
+                    </StackLayout>
+                </StackLayout>
+                <StackLayout Orientation="Horizontal">
+                    <StackLayout.Padding>
+                        <OnPlatform x:TypeArguments="Thickness">
+                            <On Platform="iOS" Value="5,20,5,5" />
+                            <On Platform="Android" Value="5,0,5,5" />
+                            <On Platform="UWP" Value="10" />
+                        </OnPlatform>
+                    </StackLayout.Padding>
+                    <StackLayout.Margin>
+                        <OnPlatform x:TypeArguments="Thickness">
+                            <On Platform="iOS" Value="0,20,0,0" />
+                            <On Platform="Android, WinPhone, UWP" Value="0,0,0,0" />
+                        </OnPlatform>
+                    </StackLayout.Margin>
+                    <Button Text="Submit Order"  BackgroundColor="#287cbe"  TextColor="White" Clicked="OnClickSubmitOrder" WidthRequest="300" HorizontalOptions="Center"/>
+                </StackLayout>
+                <AbsoluteLayout BackgroundColor="#22000000" x:Name="checkingout"
+                    IsVisible="false"
+                    AbsoluteLayout.LayoutBounds="0.5,0.5,1,1"
+                    AbsoluteLayout.LayoutFlags="All"
+                    >
+                    <Label Text="Processing Your Order..." TextColor="Gray" HorizontalOptions="Center" />
+                    <ActivityIndicator 
+                           AbsoluteLayout.LayoutBounds="0.5,0.5,0.1,0.1"
+                           AbsoluteLayout.LayoutFlags="All"
+                        IsRunning="{Binding Source={x:Reference CheckOut}, Path=IsBusy}" Color="Accent" >
+                    </ActivityIndicator>
+                </AbsoluteLayout>
+            </StackLayout>
+
+            <!--Overlay-->
+            <ContentView x:Name="overlay" 
+                 AbsoluteLayout.LayoutBounds="0, 0, 1, 1"
+                 AbsoluteLayout.LayoutFlags="All"
+                 IsVisible="False"
+                 BackgroundColor="#C0808080"
+                 Padding="10, 0">
+
+                <StackLayout Orientation="Vertical" 
+                   BackgroundColor="White" 
+                   HeightRequest="225"
+                   WidthRequest="300" 
+                   HorizontalOptions="Center" 
+                   VerticalOptions="Start" 
+                   Margin="0,20,0,0" >
+
+                    <Label BackgroundColor="Black" FontSize="18" TextColor="White" HorizontalOptions="Fill" Text="Guest Customer" />
+
+                    <Entry x:Name="EnteredEmail" 
+                        Placeholder="Enter Email" 
+                        TextColor="Black" 
+                        FontSize="Medium"
+                        VerticalOptions="CenterAndExpand" 
+                        HorizontalOptions="Center" 
+                        WidthRequest="250" Keyboard="Email">
+                        <Entry.HeightRequest>
+                            <OnPlatform x:TypeArguments="x:Double">
+                                <On Platform="iOS">35</On>
+                                <On Platform="Android,Windows">40</On>
+                            </OnPlatform>
+                        </Entry.HeightRequest>
+                    </Entry>
+
+                    <Entry x:Name="EnteredName" 
+                        Placeholder="Enter name" 
+                        TextColor="Black" 
+                        FontSize="Medium"
+                        VerticalOptions="CenterAndExpand" 
+                        HorizontalOptions="Center" 
+                        WidthRequest="250">
+                        <Entry.HeightRequest>
+                            <OnPlatform x:TypeArguments="x:Double">
+                                <On Platform="iOS">35</On>
+                                <On Platform="Android,Windows">40</On>
+                            </OnPlatform>
+                        </Entry.HeightRequest>
+                    </Entry>
+
+                    <local:DoneEntry x:Name="EnteredPhoneNumber" 
+                        Placeholder="Enter Phone#" 
+                        TextColor="Black" 
+                        FontSize="Medium"
+                        VerticalOptions="CenterAndExpand" 
+                        HorizontalOptions="Center" 
+                        WidthRequest="250" Keyboard="Telephone">
+                        <Entry.HeightRequest>
+                            <OnPlatform x:TypeArguments="x:Double">
+                                <On Platform="iOS">35</On>
+                                <On Platform="Android,Windows">40</On>
+                            </OnPlatform>
+                        </Entry.HeightRequest>
+                        <local:DoneEntry.Behaviors>
+                            <behavior:MaskedBehavior Mask="(XXX) XXX-XXXX" />
+                        </local:DoneEntry.Behaviors>
+                    </local:DoneEntry>
+
+                    <StackLayout Orientation="Horizontal" HorizontalOptions="Center">
+
+                        <Button Text="OK" FontSize="Medium"
+                        VerticalOptions="End"
+                        HorizontalOptions="Center"
+                        Clicked="OnOKButtonClicked" BackgroundColor="#287cbe"  TextColor="White">
+                            <Button.WidthRequest>
+                                <OnPlatform x:TypeArguments="x:Double">
+                                    <On Platform="iOS">80</On>
+                                    <On Platform="Android,Windows">70</On>
+                                </OnPlatform>
+                            </Button.WidthRequest>
+
+                            <Button.HeightRequest>
+                                <OnPlatform x:TypeArguments="x:Double">
+                                    <On Platform="iOS">50</On>
+                                    <On Platform="Android,Windows">40</On>
+                                </OnPlatform>
+                            </Button.HeightRequest>
+                        </Button>
+                        <StackLayout Orientation="Horizontal" HorizontalOptions="Center">
+                            <Button Text="Skip" FontSize="Medium"
+                        VerticalOptions="End"
+                        HorizontalOptions="Center"
+                        Clicked="OnCancelButtonClicked" BackgroundColor="#287cbe"  TextColor="White">
+                                <Button.WidthRequest>
+                                    <OnPlatform x:TypeArguments="x:Double">
+                                        <On Platform="iOS">80</On>
+                                        <On Platform="Android,Windows">70</On>
+                                    </OnPlatform>
+                                </Button.WidthRequest>
+
+                                <Button.HeightRequest>
+                                    <OnPlatform x:TypeArguments="x:Double">
+                                        <On Platform="iOS">50</On>
+                                        <On Platform="Android,Windows">40</On>
+                                    </OnPlatform>
+                                </Button.HeightRequest>
+                            </Button>
+                        </StackLayout>
+
+                    </StackLayout>
+
+                </StackLayout>
+
+            </ContentView>
+
+            <!--Overlay-->
+            <ContentView x:Name="splitpayment" 
+                 AbsoluteLayout.LayoutBounds="0, 0, 1, 1"
+                 AbsoluteLayout.LayoutFlags="All"
+                 IsVisible="False"
+                 BackgroundColor="#C0808080"
+                 Padding="10, 0">
+
+                <StackLayout Orientation="Vertical" 
+                   BackgroundColor="White" 
+                   HeightRequest="225"
+                   WidthRequest="300" 
+                   HorizontalOptions="Center" 
+                   VerticalOptions="Start" 
+                   Margin="0,20,0,0" >
+
+                    <Label BackgroundColor="Black" FontSize="18" TextColor="White" HorizontalOptions="Fill" Text="Cash/Charge" />
+
+                    <Entry x:Name="cashPayment" 
+                        Placeholder="cash amount" 
+                        TextColor="Black" 
+                        FontSize="Medium"
+                        VerticalOptions="CenterAndExpand" 
+                        HorizontalOptions="Center" 
+                        WidthRequest="250" Keyboard="Numeric">
+                        <Entry.HeightRequest>
+                            <OnPlatform x:TypeArguments="x:Double">
+                                <On Platform="iOS">35</On>
+                                <On Platform="Android,Windows">40</On>
+                            </OnPlatform>
+                        </Entry.HeightRequest>
+                    </Entry>
+
+                    <Entry x:Name="chargeamount" 
+                        Placeholder="charge amount" 
+                        TextColor="Black" 
+                        FontSize="Medium"
+                        VerticalOptions="CenterAndExpand" 
+                        HorizontalOptions="Center" 
+                        WidthRequest="250">
+                        <Entry.HeightRequest>
+                            <OnPlatform x:TypeArguments="x:Double">
+                                <On Platform="iOS">35</On>
+                                <On Platform="Android,Windows">40</On>
+                            </OnPlatform>
+                        </Entry.HeightRequest>
+                    </Entry>
+
+                    <StackLayout Orientation="Horizontal" HorizontalOptions="Center">
+
+                        <Button Text="OK" FontSize="Medium"
+                        VerticalOptions="End"
+                        HorizontalOptions="Center"
+                        Clicked="OnOKButtonClicked" BackgroundColor="#287cbe"  TextColor="White">
+                            <Button.WidthRequest>
+                                <OnPlatform x:TypeArguments="x:Double">
+                                    <On Platform="iOS">80</On>
+                                    <On Platform="Android,Windows">70</On>
+                                </OnPlatform>
+                            </Button.WidthRequest>
+
+                            <Button.HeightRequest>
+                                <OnPlatform x:TypeArguments="x:Double">
+                                    <On Platform="iOS">50</On>
+                                    <On Platform="Android,Windows">40</On>
+                                </OnPlatform>
+                            </Button.HeightRequest>
+                        </Button>
+                        <StackLayout Orientation="Horizontal" HorizontalOptions="Center">
+                            <Button Text="Skip" FontSize="Medium"
+                        VerticalOptions="End"
+                        HorizontalOptions="Center"
+                        Clicked="OnCancelButtonClicked" BackgroundColor="#287cbe"  TextColor="White">
+                                <Button.WidthRequest>
+                                    <OnPlatform x:TypeArguments="x:Double">
+                                        <On Platform="iOS">80</On>
+                                        <On Platform="Android,Windows">70</On>
+                                    </OnPlatform>
+                                </Button.WidthRequest>
+
+                                <Button.HeightRequest>
+                                    <OnPlatform x:TypeArguments="x:Double">
+                                        <On Platform="iOS">50</On>
+                                        <On Platform="Android,Windows">40</On>
+                                    </OnPlatform>
+                                </Button.HeightRequest>
+                            </Button>
+                        </StackLayout>
+
+                    </StackLayout>
+
+                </StackLayout>
+
+            </ContentView>
+
+            <!--Overlay2-->
+            <ContentView x:Name="overlayreferral" 
+                 AbsoluteLayout.LayoutBounds="0, 0, 1, 1"
+                 AbsoluteLayout.LayoutFlags="All"
+                 IsVisible="False"
+                 BackgroundColor="#C0808080"
+                 Padding="10, 0">
+
+                <StackLayout Orientation="Vertical" 
+                   BackgroundColor="White" 
+                   HeightRequest="200" 
+                   WidthRequest="300" 
+                   HorizontalOptions="Center" 
+                   VerticalOptions="Start" 
+                   Margin="0,20,0,0" >
+
+                    <Label BackgroundColor="Black" FontSize="18" TextColor="White" HorizontalOptions="Fill" Text="Referred By:" />
+
+                    <local:DoneEntry x:Name="EnteredCustomerID" 
+                        Keyboard="Numeric"
+                        Placeholder="Customer #" 
+                        TextColor="Black" 
+                        VerticalOptions="CenterAndExpand" 
+                        HorizontalOptions="Center" 
+                        WidthRequest="250" />
+
+                    <StackLayout Orientation="Horizontal" HorizontalOptions="Center">
+                        <Button Text="Ok" FontSize="Small"
+                                Font="Lowercase"
+                        VerticalOptions="End"
+                        HorizontalOptions="Center"
+                        Clicked="OnOKReferralClicked" BackgroundColor="#287cbe"  TextColor="White">
+                            <Button.WidthRequest>
+                                <OnPlatform x:TypeArguments="x:Double">
+                                    <On Platform="iOS">80</On>
+                                    <On Platform="Android,Windows">70</On>
+                                </OnPlatform>
+                            </Button.WidthRequest>
+
+                            <Button.HeightRequest>
+                                <OnPlatform x:TypeArguments="x:Double">
+                                    <On Platform="iOS">50</On>
+                                    <On Platform="Android,Windows">40</On>
+                                </OnPlatform>
+                            </Button.HeightRequest>
+                        </Button>
+
+                        <Button Text="Skip" FontSize="Small"
+                        VerticalOptions="End"
+                        HorizontalOptions="Center"
+                        Clicked="OnSkipReferralClicked" BackgroundColor="#287cbe"  TextColor="White">
+                            <Button.WidthRequest>
+                                <OnPlatform x:TypeArguments="x:Double">
+                                    <On Platform="iOS">80</On>
+                                    <On Platform="Android,Windows">70</On>
+                                </OnPlatform>
+                            </Button.WidthRequest>
+
+                            <Button.HeightRequest>
+                                <OnPlatform x:TypeArguments="x:Double">
+                                    <On Platform="iOS">50</On>
+                                    <On Platform="Android,Windows">40</On>
+                                </OnPlatform>
+                            </Button.HeightRequest>
+                        </Button>
+
+
+                    </StackLayout>
+
+                </StackLayout>
+
+            </ContentView>
+            <!--PrintOverlay-->
+            <ContentView x:Name="loadprinter" 
+                 AbsoluteLayout.LayoutBounds="0, 0, 1, 1"
+                 AbsoluteLayout.LayoutFlags="All"
+                 IsVisible="False"
+                 BackgroundColor="#C0808080"
+                 Padding="10, 0">
+
+                <StackLayout Orientation="Vertical" 
+                   BackgroundColor="White" 
+                   HeightRequest="200" 
+                   WidthRequest="300" 
+                   HorizontalOptions="Center" 
+                   VerticalOptions="Start" 
+                   Margin="0,20,0,0" >
+
+                    <Label BackgroundColor="Black" FontSize="18" TextColor="White" HorizontalOptions="Fill" Text="Printer:" />
+                    <!--<StackLayout Orientation="Horizontal">
+                        <Button x:Name="printButton1" Grid.Row="0" Grid.Column="2" Text="Save" TextColor="Blue" Clicked="OnPrint"/>
+                        <Button x:Name="printButton2" Grid.Row="0" Grid.Column="2" Text="Skip" TextColor="Blue" Clicked="OnPrint"/>
+                    </StackLayout>-->
+                    <Entry x:Name="PrinterName" 
+                        IsEnabled="True"
+                        Placeholder="PrinterName" 
+                        TextColor="Black" 
+                        VerticalOptions="Start" 
+                        HorizontalOptions="Center" 
+                        WidthRequest="250" />
+
+                    <Entry x:Name="MacAddress" 
+                        Placeholder="Mac Address" 
+                         IsEnabled="True"
+                        TextColor="Black" 
+                        VerticalOptions="Start" 
+                        HorizontalOptions="Center" 
+                        WidthRequest="250" />
+
+                    <StackLayout Orientation="Horizontal" HorizontalOptions="Center">
+                        <Button x:Name="printButton1"  Text="Save/Print" TextColor="Blue" Clicked="OnSaveMacAddress"/>
+                        <Button x:Name="printButton2" Text="Skip" TextColor="Blue" Clicked="OnSkipPrinter"/>
+                    </StackLayout>
+
+                </StackLayout>
+
+            </ContentView>
+        </AbsoluteLayout>
+
+    </ContentPage.Content>
+</ContentPage>

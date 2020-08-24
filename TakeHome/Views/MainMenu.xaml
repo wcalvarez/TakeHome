@@ -1,0 +1,57 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<MasterDetailPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:d="http://xamarin.com/schemas/2014/forms/design"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d"
+             x:Class="TakeHome.Views.MainMenu"
+             xmlns:pages="clr-namespace:TakeHome.Views">
+    <MasterDetailPage.Master>
+        <ContentPage 
+                Icon="hamburger_menu.png" 
+                Title="Menu"
+                BackgroundColor="#616161">
+            <!-- Menu Title background color -->
+
+            <!-- Slide out Menu -->
+            <ContentPage.Padding>
+                <OnPlatform x:TypeArguments ="Thickness" Android="0" WinPhone="0" iOS="0" />
+            </ContentPage.Padding>
+            <StackLayout VerticalOptions="FillAndExpand">
+                <StackLayout.Padding>
+                    <OnPlatform x:TypeArguments="Thickness">
+                        <On Platform="iOS" Value="5,20,5,5" />
+                        <On Platform="Android" Value="5,0,5,5" />
+                        <On Platform="UWP" Value="10" />
+                    </OnPlatform>
+                </StackLayout.Padding>
+                <Label 
+                    Text="mobileOrders" 
+                    TextColor="White" 
+                    FontSize="22" 
+                    VerticalOptions="Center" 
+                    HorizontalOptions="Center" 
+                    Margin="0, 27, 0, 5" />
+
+                <ListView 
+                        x:Name="MenuListView"
+                        ItemsSource="{Binding MainMenuItems}"
+                        ItemSelected="MainMenuItem_Selected"
+                        VerticalOptions="FillAndExpand" 
+                        SeparatorVisibility="None" 
+                        BackgroundColor="#f5f5f5">
+                    <!-- Menu background color -->
+                    <ListView.ItemTemplate>
+                        <DataTemplate>
+                            <ImageCell 
+                                Text="{Binding Title}" 
+                                ImageSource="{Binding Icon}"
+                                TextColor="Black"/>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                </ListView>
+            </StackLayout>
+
+        </ContentPage>
+    </MasterDetailPage.Master>
+</MasterDetailPage>
