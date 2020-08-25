@@ -104,8 +104,10 @@ namespace TakeHome.Views
 
         protected  override void OnAppearing()
         {
+            base.OnAppearing();
             //locations = viewModel.Locations;
-           
+ 
+
             if (locations.Count == 0)
             {
                 downloadLocations("WJ3");

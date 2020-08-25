@@ -35,6 +35,8 @@
             <StackLayout VerticalOptions="Fill">
                 <Grid>
                 <ListView  ItemsSource="{Binding}"
+                           BackgroundColor="AntiqueWhite"
+                   SeparatorColor="DarkGreen"
                            SelectedItem="{Binding OrderDetail, Mode=TwoWay}"
                            ItemSelected="OnSelection">
                     <ListView.Header>
@@ -77,7 +79,7 @@
                 </Grid>
             </StackLayout>
             <StackLayout>
-                <Label Text="{DynamicResource SubTotal}" HorizontalOptions="CenterAndExpand"    TextColor="Black" FontSize="15"/>
+                <Label Text="{DynamicResource SubTotal}" HorizontalOptions="CenterAndExpand"    TextColor="Black" FontSize="Subtitle"/>
             <!--<Label x:Name="SubTotal" Text="{Binding Amount, Converter={StaticResource DecimalAmountToCurrency}}" HorizontalOptions="CenterAndExpand"    TextColor="Black" FontSize="Medium"/>-->
                 <Button Text="Checkout"  BackgroundColor="#287cbe"  TextColor="White" Clicked="OnClickCheckout"/>
             </StackLayout>

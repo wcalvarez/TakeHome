@@ -46,7 +46,7 @@
                 <StackLayout Grid.Row="2" x:Name="businesstime">
                     <Label Text="Business Hours:" x:Name="open_close" HorizontalOptions="CenterAndExpand" FontSize="Medium" FontAttributes="Bold"/>
                     <StackLayout Orientation="Horizontal" HorizontalOptions="CenterAndExpand">
-                        <Label Text="Business Hours: " FontSize="Subtitle"/>
+                        <Label Text="Business Hours: " FontSize="Large"/>
                         <Label Text="{Binding StartTime}" x:Name="openning" VerticalOptions="CenterAndExpand" HorizontalOptions="Start" />
                         <Label Text=" - " FontSize="Medium" FontAttributes="Bold"/>
                         <Label Text="{Binding CloseTime}" x:Name="closetime"

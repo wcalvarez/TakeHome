@@ -103,11 +103,11 @@ namespace TakeHome.Views
                         {
                             if (timeNow >=  closeTime)
                             {
-                                await DisplayAlert("Closed:", "Sorry, this store is Close for the day.", "Ok");
+                                await DisplayAlert("Closed:", "Sorry, this store closes at " + closeTime.ToString() +".", "Ok");
                             }
                             if (timeNow < openTime)
                             {
-                                await DisplayAlert("Closed:", "Sorry, this store not yet Open for the day.", "Ok");
+                                await DisplayAlert("Closed:", "This store opens at " + openTime.ToString() +".", "Ok");
                                 await Navigation.PopAsync();
                             }
                             return;

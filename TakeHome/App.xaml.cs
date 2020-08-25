@@ -53,11 +53,10 @@ namespace TakeHome
             OrderRepo = new OrderDetailRepository(dbPath);
             AddressRepo = new AddressRepository(dbPath);
             LocationRepo = new LocationRepository(dbPath);
-            DataRepo = new DataRepository(dbPath);
             ProductRepo = new ProductRepository(dbPath);
             OrderHeaderRepo = new OrderHeaderRepository(dbPath);
             ZOrderRepo = new ZOrderDetailRepository(dbPath);
-
+            DataRepo = new DataRepository(dbPath);
             NavigationPage = new NavigationPage(new LocationsPage());
 
             //get AppUser
@@ -71,6 +70,7 @@ namespace TakeHome
             MainMenu = new MainMenu();
             MainMenu.Master = menuPage;
             MainMenu.Detail = NavigationPage;
+            //NavigationPage.BackgroundColor = Xamarin.Forms.Color.LightCyan;
             NavigationPage.BarBackgroundColor = Color.Tomato;
             MainPage = MainMenu;
         }

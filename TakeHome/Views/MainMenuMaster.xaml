@@ -7,7 +7,7 @@
              x:Class="TakeHome.Views.MainMenuMaster"
              BackgroundColor="#0080FF"
              Title="Menu">
-    <StackLayout Spacing="10" BackgroundColor="#eff248">
+    <StackLayout  BackgroundColor="#eff248">
         <StackLayout.Padding>
             <OnPlatform x:TypeArguments="Thickness">
                 <On Platform="iOS" Value="5,20,5,5" />
@@ -15,6 +15,12 @@
                 <On Platform="UWP" Value="10" />
             </OnPlatform>
         </StackLayout.Padding>
+        <StackLayout.Margin>
+            <OnPlatform x:TypeArguments="Thickness">
+                <On Platform="iOS" Value="0,20,0,0" />
+                <On Platform="Android, WinPhone, UWP" Value="0,0,0,0" />
+            </OnPlatform>
+        </StackLayout.Margin>
         <ListView x:Name="MenuItemsListView"
               SeparatorVisibility="None"
               HasUnevenRows="true"
