@@ -32,20 +32,9 @@
         </StackLayout.Margin>
         <views:NavigationBarView x:Name="NavigationBarView" Title ="{Binding Title}"  />
         <Grid>
-            <!--<Grid.RowDefinitions>
-                <RowDefinition Height="2*" />
-                <RowDefinition Height="Auto" />
-            </Grid.RowDefinitions>-->
-
-            <!--<StackLayout IsVisible="{Binding Source={x:Reference ThePage}, Path=IsBusy}"
-                    HorizontalOptions="Center" VerticalOptions="CenterAndExpand" Padding="20">
-                <Label Text="Loading Data..." TextColor="Gray" HorizontalOptions="Center" />
-                <ActivityIndicator IsRunning="{Binding Source={x:Reference ThePage}, Path=IsBusy}" Color="Accent" >
-                </ActivityIndicator>
-            </StackLayout>-->
             <ListView x:Name ="lstView" IsGroupingEnabled="true"  
                   GroupShortNameBinding="{Binding ShortName}"
-                   
+                   BackgroundColor="AntiqueWhite"
                    SeparatorColor="DarkGreen"
                    SelectedItem="{Binding Product, Mode=TwoWay}"
                    ItemSelected="ProductSelected">
@@ -58,7 +47,8 @@
                 <ListView.ItemTemplate>
                      
                     <DataTemplate>
-                        <ImageCell Text="{Binding Name}" Detail="{Binding UomPrices}" 
+                        <ImageCell Text="{Binding Name}" Detail="{Binding UomPrices}" TextColor="Tomato"
+                                   DetailColor="Blue" 
                                    ImageSource="{Binding SmallImage, Converter={StaticResource ByteArrayToImage}}"/>
                     </DataTemplate>
                 </ListView.ItemTemplate>
@@ -66,8 +56,8 @@
                 <ListView.GroupHeaderTemplate>
                     <DataTemplate>
                         <ViewCell>
-                            <StackLayout BackgroundColor="LightGray">
-                                <Label Text="{Binding LongName}" TextColor="Black" FontAttributes="Bold" FontSize="Medium" HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand"/>
+                            <StackLayout BackgroundColor="#F0B27A" >
+                                <Label Text="{Binding LongName}" TextColor="Black" FontAttributes="Bold" FontSize="Large" HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand"/>
                             </StackLayout>
                         </ViewCell>
                     </DataTemplate>

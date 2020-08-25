@@ -95,11 +95,21 @@ namespace TakeHome.Views
                         var openTime = bhours.StartTime.TimeOfDay;
                         var closeTime = bhours.CloseTime.TimeOfDay;
                         var timeNow = DateTime.Now.TimeOfDay;
-                        if (timeNow >= openTime && timeNow <= closeTime) { }
+                        if (timeNow >= openTime && timeNow <= closeTime)
+                        { 
+
+                        }
                         else
                         {
-                            await DisplayAlert("Closed:", "Sorry, this store not yet Open for today", "Ok");
-                            await Navigation.PopAsync();
+                            if (timeNow >=  closeTime)
+                            {
+                                await DisplayAlert("Closed:", "Sorry, this store is Close for the day.", "Ok");
+                            }
+                            if (timeNow < openTime)
+                            {
+                                await DisplayAlert("Closed:", "Sorry, this store not yet Open for the day.", "Ok");
+                                await Navigation.PopAsync();
+                            }
                             return;
                         }
                     }

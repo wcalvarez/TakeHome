@@ -73,7 +73,7 @@ namespace TakeHome.Views
                     }
                     else  //Closed Today
                     {
-                        open_close.Text = "CLOSED on" +  bhours.WeekDay;
+                        open_close.Text = "CLOSED on " +  bhours.WeekDay +"(s)";
                     }
                 }
                 catch (Exception err)
