@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using TakeHome.Models;
 using TakeHome.Services;
+using Xamarin.Essentials;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
@@ -104,7 +105,7 @@ namespace TakeHome.Views
                     if (uniqueEmail)
                     {
                         var locs = await manager.GetLocationsByType("mobileStore");
-                        var locList = JsonConvert.DeserializeObject<IList<Location>>(locs);
+                        var locList = JsonConvert.DeserializeObject<IList<Models.Location>>(locs);
  
                         user.LocationID = locList.First().LocationID;
                         // user.AppUserTypeID = 3;
@@ -130,7 +131,20 @@ namespace TakeHome.Views
                 catch (Exception err)
                 {
                     this.IsBusy = false;
-                    await DisplayAlert("Ooops..", "Unable complete your Sign-Up" + err.Message, "OK");
+                    //await DisplayAlert("Ooops..", "Unable complete your Sign-Up" + err.Message, "OK");
+
+                    var current = Connectivity.NetworkAccess;
+
+                    if (current == NetworkAccess.Internet)
+                    {
+                        // Connection to internet is available
+                        await DisplayAlert("Ooops..", "Unable to complete your Sign-Up, " + err.Message, "OK");
+                    }
+                    else
+                    {
+                        await DisplayAlert("Ooops..", "Network Error: " + "You lost internet connection, try again", "OK");
+
+                    }
                 }
                 finally
                 {

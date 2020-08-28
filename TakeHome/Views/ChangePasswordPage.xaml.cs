@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using TakeHome.Models;
 using TakeHome.Services;
+using Xamarin.Essentials;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
@@ -118,8 +119,21 @@ namespace TakeHome.Views
                 catch (Exception err)
                 {
                     this.IsBusy = false;
-                    await DisplayAlert("Ooops..", "Unable to save password changes" + err.Message, "OK");
+                    //await DisplayAlert("Ooops..", "Unable to save password changes" + err.Message, "OK");
+                    var current = Connectivity.NetworkAccess;
+
+                    if (current == NetworkAccess.Internet)
+                    {
+                        // Connection to internet is available
+                        await DisplayAlert("Ooops..", "Unable to save password changes, " + err.Message, "OK");
+                    }
+                    else
+                    {
+                        await DisplayAlert("Ooops..", "Network Error: " + "You lost internet connection, try again", "OK");
+
+                    }
                     return;
+ 
                 }
                 finally
                 {

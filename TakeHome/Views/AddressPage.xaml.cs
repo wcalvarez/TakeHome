@@ -7,6 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using TakeHome.Models;
 using TakeHome.Services;
+using Xamarin.Essentials;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
@@ -72,7 +73,19 @@ namespace TakeHome.Views
             }
             catch (Exception err)
             {
-                await DisplayAlert("Ooops..", "Unable to retrieve Addresses data" + err.Message, "OK");
+                //await DisplayAlert("Ooops..", "Unable to retrieve Addresses data" + err.Message, "OK");
+                var current = Connectivity.NetworkAccess;
+
+                if (current == NetworkAccess.Internet)
+                {
+                    // Connection to internet is available
+                    await DisplayAlert("Ooops..", "Unable to retrieve Address data, " + err.Message, "OK");
+                }
+                else
+                {
+                    await DisplayAlert("Ooops..", "Network Error: " + "You lost internet connection, try again", "OK");
+
+                }
                 this.IsBusy = false;
                 await Navigation.PopAsync();
             }
@@ -104,7 +117,19 @@ namespace TakeHome.Views
             catch (Exception err)
             {
                 this.IsBusy = false;
-                await DisplayAlert("Ooops..", "Unable to load States/Provinces" + err.Message, "OK");
+                //await DisplayAlert("Ooops..", "Unable to load States/Provinces" + err.Message, "OK");
+                var current = Connectivity.NetworkAccess;
+
+                if (current == NetworkAccess.Internet)
+                {
+                    // Connection to internet is available
+                    await DisplayAlert("Ooops..", "Unable to load State/Provinces, " + err.Message, "OK");
+                }
+                else
+                {
+                    await DisplayAlert("Ooops..", "Network Error: " + "You lost internet connection, try again", "OK");
+
+                }
                 await Navigation.PopToRootAsync();
             }
             finally
@@ -183,7 +208,19 @@ namespace TakeHome.Views
             catch (Exception err)
             {
                 this.IsBusy = false;
-                await DisplayAlert("Ooops..", "Unable to save new Address" + err.Message, "OK");
+                //await DisplayAlert("Ooops..", "Unable to save new Address" + err.Message, "OK");
+                var current = Connectivity.NetworkAccess;
+
+                if (current == NetworkAccess.Internet)
+                {
+                    // Connection to internet is available
+                    await DisplayAlert("Ooops..", "Unable to save new Address, " + err.Message, "OK");
+                }
+                else
+                {
+                    await DisplayAlert("Ooops..", "Network Error: " + "You lost internet connection, try again", "OK");
+
+                }
                 await Navigation.PopAsync();
             }
             finally
@@ -249,7 +286,19 @@ namespace TakeHome.Views
             catch (Exception err)
             {
                 this.IsBusy = false;
-                await DisplayAlert("Ooops..", "Unable to Delete Address" + err.Message, "OK");
+                //await DisplayAlert("Ooops..", "Unable to Delete Address" + err.Message, "OK");
+                var current = Connectivity.NetworkAccess;
+
+                if (current == NetworkAccess.Internet)
+                {
+                    // Connection to internet is available
+                    await DisplayAlert("Ooops..", "Unable to Delete Address, " + err.Message, "OK");
+                }
+                else
+                {
+                    await DisplayAlert("Ooops..", "Network Error: " + "You lost internet connection, try again", "OK");
+
+                }
             }
             finally
             {

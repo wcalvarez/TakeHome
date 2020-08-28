@@ -212,4 +212,9 @@
   <ItemGroup>
     <BundleResource Include="Resources\nocards.png" />
   </ItemGroup>
+  <ProjectExtensions>
+    <VisualStudio>
+      <UserProperties XamarinHotReloadDebuggerTimeoutExceptionTakeHomeiOSHideInfoBar="True" />
+    </VisualStudio>
+  </ProjectExtensions>
 </Project>

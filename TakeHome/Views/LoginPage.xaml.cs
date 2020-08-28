@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using TakeHome.Models;
 using TakeHome.Services;
+using Xamarin.Essentials;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
@@ -110,7 +111,19 @@ namespace TakeHome.Views
                     {
 
                         this.IsBusy = false;
-                        await DisplayAlert("Ooops..", "Unable to log you in:" + err.Message, "OK");
+                        //await DisplayAlert("Ooops..", "Unable to log you in:" + err.Message, "OK");
+                        var current = Connectivity.NetworkAccess;
+
+                        if (current == NetworkAccess.Internet)
+                        {
+                            // Connection to internet is available
+                            await DisplayAlert("Ooops..", "Unable to log you in: " + err.Message, "OK");
+                        }
+                        else
+                        {
+                            await DisplayAlert("Ooops..", "Network Error: " + "No internet connection, try again", "OK");
+
+                        }
                         return;
                     }
                     finally
