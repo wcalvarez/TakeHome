@@ -101,7 +101,6 @@ namespace TakeHome.Views
                         uniqueEmail = false;
                     }
 
-
                     if (uniqueEmail)
                     {
                         var locs = await manager.GetLocationsByType("mobileStore");
