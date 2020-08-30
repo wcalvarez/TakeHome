@@ -7,7 +7,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TakeHome.Android", "TakeHom
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TakeHome.iOS", "TakeHome.iOS\TakeHome.iOS.csproj", "{FD91B6A8-1F92-46FC-BEC5-02E482F47184}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TakeHome", "TakeHome\TakeHome.csproj", "{ACA4A20A-A1B1-4E09-88F7-D2AC50AA6BD5}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TakeHome", "TakeHome\TakeHome.csproj", "{ACA4A20A-A1B1-4E09-88F7-D2AC50AA6BD5}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
