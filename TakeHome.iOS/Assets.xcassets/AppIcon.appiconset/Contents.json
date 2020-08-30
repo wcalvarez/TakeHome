@@ -85,12 +85,6 @@
       "filename": "Icon167.png"
     },
     {
-      "scale": "1x",
-      "size": "1024x1024",
-      "idiom": "ios-marketing",
-      "filename": "Icon1024.png"
-    },
-    {
       "scale": "2x",
       "size": "60x60",
       "idiom": "iphone",
@@ -106,6 +100,12 @@
       "scale": "2x",
       "size": "20x20",
       "idiom": "iphone"
+    },
+    {
+      "scale": "1x",
+      "size": "1024x1024",
+      "idiom": "ios-marketing",
+      "filename": "iTunesArtwork-1024.png"
     }
   ],
   "properties": {},
