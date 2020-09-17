@@ -48,7 +48,7 @@ namespace TakeHome.Views
                     var today = DateTime.Now;
                     string Day = today.ToString("dddd");
 
-                    var storehours = await manager.GetLocationHours(viewModel.Location.LocationID);
+                    var storehours = await manager.GetLocationHours(Day);
 
                     BusinessHour bhours = JsonConvert.DeserializeObject<BusinessHour>(storehours);
 
@@ -100,9 +100,6 @@ namespace TakeHome.Views
                 {
                     this.IsBusy = false;
                 }
-
-                //BindingContext = viewModel;
-
             }
 
         }

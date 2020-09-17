@@ -83,7 +83,9 @@ namespace TakeHome.Views
 
             if (pickup)
             {
-                pickup_time.IsVisible = true;
+                pickup_frame.IsVisible = true;
+                _datePicker.Date = DateTime.Today;
+
                 _timePicker.Time = DateTime.Now.TimeOfDay;
                 duration = DateTime.Now.AddMinutes(App.storeHours.PickupLeadTime + 2);
                 _timePicker.Time = duration.TimeOfDay;
@@ -272,21 +274,6 @@ namespace TakeHome.Views
 
                 }
 
-                //improvement from wiped-out 'ZOrderHeader' process, OrderHeader, never saved in Device..so use OrderHeader not need for ZOrderHeader(temporary OrderHeader for posting)
-
-                //int zid = App.OrderHeaderRepo.AddNewOrderHeader(newHeader);
-                //await DisplayAlert("Unposted Order", "Please make sure it gets posted.", "OK");
-
-                //foreach (OrderDetail d in orderLines)
-                //{
-                //    OrderDetail newLine = d;
-                //    string jsonOrderDetail = JsonConvert.SerializeObject(newLine);
-                //    ZOrderDetail zd = new ZOrderDetail();
-                //    zd = JsonConvert.DeserializeObject<ZOrderDetail>(jsonOrderDetail);
-                //    zd.ZOrderHeaderID = newHeader.ZOrderHeaderID;
-                //    App.ZOrderRepo.AddNewZOrderDetail(zd);
-                //}
-
                 await Navigation.PopToRootAsync();
 
             }
@@ -298,47 +285,125 @@ namespace TakeHome.Views
 
             return postedOrders;
 
-            //App.OrderRepo.DeleteAllOrderDetail();
-            //await DisplayAlert("Order Completed", "Your Order has been received", "Thank You");
-            //await Navigation.PopToRootAsync();
-
-
         }
         private async void OnClickSubmitOrder(object sender, System.EventArgs e)
         {
-            //if (App.BrowsingLocation.SalesOrderEntry)
-            //{
+
 
                 //validate salesorderentry payment-entry
                 decimal cashValue = 0;
                 decimal chargeValue = 0;
                 decimal referralcreditValue = 0;
-                int postedOrders = 0;
 
                 pickupTime = _timePicker.Time;
-            string displayValue = new DateTime().Add(pickupTime).ToString("hh:mm tt");
+
             IList<OrderDetail> orderLines = new ObservableCollection<OrderDetail>(App.OrderRepo.GetAllOrderDetails());
 
 
             // validate Entries
-            duration = DateTime.Now.AddMinutes(App.storeHours.PickupLeadTime);
-            TimeSpan pick20 = duration.TimeOfDay;
-            if (_timePicker.Time < pick20)
-            {
-                await DisplayAlert("Earliest Pickup:", App.storeHours.PickupLeadTime.ToString() + " minutes after you ordered", "ok");
-                return;
+            //validate future-date pickup
+
+              if (_datePicker.Date != DateTime.Now.Date && _datePicker.Date > DateTime.Now.Date)
+                {
+                // Turn on network indicator
+                this.IsBusy = true;
+
+                try
+                {
+                    //get store-hours
+                    var weekday = _datePicker.Date;
+                    string pickday = weekday.ToString("dddd");
+
+                    var storehours = await manager.GetLocationHours(pickday);
+
+                    BusinessHour bhours = JsonConvert.DeserializeObject<BusinessHour>(storehours);
+                //    App.storeHours = bhours;
+
+                    if (bhours.Open)
+                    {
+                        var openTime = bhours.StartTime.TimeOfDay;
+                        var closeTime = bhours.CloseTime.TimeOfDay;
+                        var timeNow = _timePicker.Time;  
+                        
+                        if (timeNow >= openTime && timeNow <= closeTime)
+                        {
+
+                        }
+                        else
+                        {
+                            if (timeNow >= closeTime)
+                            {
+                                //TimeSpan ts = bhours.CloseTime.TimeOfDay;
+                                DateTime dtTemp = DateTime.ParseExact(bhours.CloseTime.TimeOfDay.ToString(), "HH:mm:ss", CultureInfo.InvariantCulture);      
+                                await DisplayAlert("Sorry, this store closes at " + dtTemp.ToString("hh:mm tt") + " on " + _datePicker.Date.ToString("MM/dd/yyyy") + ".","Please select an earlier pickup time.", "Ok");
+                            }
+                            if (timeNow < openTime)
+                            {
+                                DateTime dtTemp = DateTime.ParseExact(bhours.StartTime.TimeOfDay.ToString(), "HH:mm:ss", CultureInfo.InvariantCulture);
+                                await DisplayAlert("Select a later pickup time:", "This store opens at " + dtTemp.ToString("hh:mm tt") + " on " + _datePicker.Date.ToString("MM/dd/yyyy") + ".", "Ok");
+                                await Navigation.PopAsync();
+                            }
+                            return;
+                        }
+                    }
+                    else  //Closed Today
+                    {
+                        await DisplayAlert("Closed:", "Sorry, this store is Closed today.", "Ok");
+                        await Navigation.PopAsync();
+                        return;
+                    }
+                }
+                catch (Exception err)
+                {
+                    this.IsBusy = false;
+                    var current = Connectivity.NetworkAccess;
+
+                    if (current == NetworkAccess.Internet)
+                    {
+                        await DisplayAlert("Ooops..", "No business hours setup for " + DateTime.Now.ToString("dddd") + "(s).", "OK");
+                    }
+                    else
+                    {
+                        await DisplayAlert("Ooops..", "Unable to verify store hours: " + "You lost internet connection, try again", "OK");
+
+                    }
+                    return;
+                }
+                finally
+                {
+                    this.IsBusy = false;
+                }
+
             }
-
-            //pickup can't be past 15 minutes before closing
-
-            duration = App.storeHours.CloseTime.AddMinutes(App.storeHours.LastOrderLeadTime * -1);
-            TimeSpan pick15 = duration.TimeOfDay;
-            if (_timePicker.Time > pick15)
+              else
             {
-                await DisplayAlert("Lastt Pickup:", App.storeHours.LastOrderLeadTime.ToString() +  " minutes before " + App.storeHours.CloseTime.ToString(), "ok");
-                return;
+                if(_datePicker.Date < DateTime.Now.Date)
+                {
+                    await DisplayAlert("Invalid Pickup Date:", "You can't pickup for past date(s)", "ok");
+                    return;
+                }
             }
+            //same-day pickup
+            if (_datePicker.Date == DateTime.Now.Date)
+            {
+                duration = DateTime.Now.AddMinutes(App.storeHours.PickupLeadTime);
+                TimeSpan pick20 = duration.TimeOfDay;
+                if (_timePicker.Time < pick20)
+                {
+                    await DisplayAlert("Earliest Pickup:", App.storeHours.PickupLeadTime.ToString() + " minutes after you ordered", "ok");
+                    return;
+                }
 
+                //pickup can't be past 15 minutes before closing
+
+                duration = App.storeHours.CloseTime.AddMinutes(App.storeHours.LastOrderLeadTime * -1);
+                TimeSpan pick15 = duration.TimeOfDay;
+                if (_timePicker.Time > pick15)
+                {
+                    await DisplayAlert("Lastt Pickup:", App.storeHours.LastOrderLeadTime.ToString() + " minutes before " + App.storeHours.CloseTime.ToString(), "ok");
+                    return;
+                }
+            }
             /// var openTime = bhours.StartTime.TimeOfDay;
             //var closeTime = bhours.CloseTime.TimeOfDay;
 
@@ -385,7 +450,8 @@ namespace TakeHome.Views
             {
                 newHeader.ShippingInfoID = null;
                 pickupTime = _timePicker.Time;
-                newHeader.AvailMode = "Pickup: " + new DateTime().Add(pickupTime).ToString("hh:mm tt");
+                newHeader.AvailMode = "Pickup: " + _datePicker.Date.ToString("MM/dd/yyyy") + " " + 
+                    new DateTime().Add(pickupTime).ToString("hh:mm tt");
             }
             else
             {
@@ -461,7 +527,6 @@ namespace TakeHome.Views
             this.IsBusy = true;
             checkingout.IsVisible = true;
             string[] mmyy = ExpMMYR.Text.Split('/');
-            // string[] arrDate = (CardExpirationDate.Text).Split('/');
             try
             {
                 if (App.OrderLocation.MinimumCreditOrder > 0)
@@ -510,7 +575,6 @@ namespace TakeHome.Views
 
                 if (current == NetworkAccess.Internet)
                 {
-                    // Connection to internet is available
                     await DisplayAlert("Ooops..", "Unable to process your Order: " + err.Message, "OK");
                 }
                 else
@@ -530,186 +594,7 @@ namespace TakeHome.Views
             App.OrderRepo.DeleteAllOrderDetail();
             await DisplayAlert("Order Completed", "Your Order has been received", "Thank You");
             await Navigation.PopToRootAsync();
-            //
-            //STRIPE-END
-            //
 
-            //Print(printerMacTest);
-            // Turn on network indicator
-            //this.IsBusy = true;
-            //    checkingout.IsVisible = true;
-            //    //OnPrint(newHeader);
-
-
-            //    try
-            //    {
-            //        OrderHeader newOrderHeader = await manager.PostOrderHeader(newHeader);
-            //        postedOrders += 1;
-            //        OrderDetail[] items;
-
-            //        itemsList = new List<OrderDetail>();
-
-            //        foreach (OrderDetail dtl in orderLines)
-            //        {
-            //            dtl.OrderHeaderID = newOrderHeader.OrderHeaderID;
-            //            itemsList.Add(dtl);
-            //        }
-
-            //        items = itemsList.ToArray();
-            //        await manager.PostOrderDetails(items);
-
-            //        //NOTE:No need to invoke Delete-Details here, it's done on the root view anyways
-            //        //foreach (OrderDetail d in orderLines)
-            //        //{
-            //        //    App.OrderRepo.DeleteOrderDetail(d);
-            //        //}
-            //        newHeader.Posted = true;
-            //        // OnPrint(newHeader);
-            //        //this.IsBusy = false;
-            //        checkingout.IsVisible = false;
-            //        // App.OrderRepo.DeleteAllOrderDetail();
-            //        //await DisplayAlert("Order Completed", "Your Order has been received", "Thank You");
-
-            //        //await Navigation.PopToRootAsync();
-            //       //? return;
-            //    }
-            //    catch (Exception err)
-            //    {
-            //        this.IsBusy = false;
-            //        await DisplayAlert("Ooops..", "Unable to process your Order", "OK");
-
-            //        //printOrder(newHeader)
-            //        //await Navigation.PopToRootAsync();
-
-            //    }
-            //    finally
-            //    {
-            //        // OnPrint(newHeader);
-            //        this.IsBusy = false;
-            //        checkingout.IsVisible = false;
-            //        if (newHeader.Posted)
-            //        {
-            //          //  fullName = "#" + App.CurrentCustomer.CustomerID.ToString() + "-" + newHeader.CustomerFirstName;
-            //            await DisplayAlert("Order Completed", "Your Order has been received.", "OK");
-            //        }
-
-
-            //    //don't leave thread, ask for printing
-            //    // OnPrint(newHeader);
-            //    await Shell.Current.GoToAsync("//stores");
-
-            //}
-
-            ///
-            // }
-
-            //IList<OrderDetail> orderLines = new ObservableCollection<OrderDetail>(App.OrderRepo.GetAllOrderDetails());
-
-            //var itemsList = new List<OrderDetail>();
-
-            //OrderHeader newHeader = new OrderHeader();
-            //newHeader.LocationID = App.OrderRepo.GetOrderLocationID().LocationID;
-
-            //newHeader.AppUserID = 5; //1 will be the default Guest Customer (unregistered) shopper
-
-            //newHeader.OrderDate = DateTime.Today;
-            //newHeader.OrderStatus = "Received";
-
-
-            //newHeader.AvailAddress = App.shipto.FullAddress;
-            //newHeader.AvailCityStateZip = App.shipto.City + ", " + App.shipto.State;
-            //newHeader.GrossAmount = orderLines.Sum(P => P.Amount);
-            //newHeader.Tax = newHeader.GrossAmount * decTaxRate;
-
-            //if (App.user != null && App.user.IsLoggedIn)
-            //{
-            //    //newHeader.PhoneNumber = App.user.PhoneNumber;
-            //    decimal applied_amount = System.Convert.ToDecimal(useamount.Text);
-
-            //    if (applied_amount > storeCredit)
-            //    {
-            //        await DisplayAlert("Alert", "Balance less then Credit used", "OK");
-            //        return;
-            //    }
-            //    else
-            //    {
-            //        usc.CreditBalance = usc.CreditBalance - applied_amount;
-            //        OrderTotal -= applied_amount;
-            //    }
-            //}
-
-            //if (App.shipto.Zipcode != null)
-            //{
-            //    newHeader.AvailCityStateZip += " " + App.shipto.Zipcode;
-            //}
-
-            //if (App.shipto != null)
-            //{
-            //    newHeader.Country = App.shipto.Country;
-            //}
-
-            ////
-            ////Process StripePayment before backend Updates, unsuccessfull Stripe Payment,means no Order at all
-            ////
-            ////BusyIndicator
-            //// Turn on network indicator
-            //this.IsBusy = true;
-            //checkingout.IsVisible = true;
-            //try
-            //{
-            //    if (App.OrderLocation.MinimumCreditOrder > 0)
-            //    {
-            //        StripeTest stripeTest = new StripeTest();
-            //        stripeTest.CardNumber = CardNumber.Text;
-            //        stripeTest.ExpireMonth = ExpMM.Text;
-            //        stripeTest.ExpireYear = ExpYR.Text;
-            //        stripeTest.Cvc = Cvc.Text;
-            //        stripeTest.CardIssuer = "Visa";
-            //        stripeTest.ChargeAmount = OrderTotal;
-            //        stripeTest.GrossSales = subTotal;
-
-            //        stripeTest.LocationID = App.OrderRepo.GetOrderLocationID().LocationID;
-
-            //        StripeTest testedStripe = await manager.PostStripeTest(stripeTest);
-
-            //        if (!testedStripe.ChargedSuccessfully)
-            //        {
-            //            this.IsBusy = false;
-            //            checkingout.IsVisible = false;
-            //            await DisplayAlert("Payment Failed:", testedStripe.ErrorMessage, "Ok");
-            //            return;
-            //        }
-            //    }
-
-            //    OrderHeader newOrderHeader = await manager.PostOrderHeader(newHeader);
-            //    OrderDetail[] items;
-
-            //    itemsList = new List<OrderDetail>();
-
-            //    foreach (OrderDetail dtl in orderLines)
-            //    {
-            //          dtl.OrderHeaderID = newOrderHeader.OrderHeaderID;
-            //          itemsList.Add(dtl);
-            //    }
-
-            //    items = itemsList.ToArray();
-            //    await manager.PostOrderDetails(items);
-            //}
-            //catch (Exception err)
-            //{
-            //    this.IsBusy = false;
-            //    await DisplayAlert("Ooops..", "Unable to process your Order", "OK");
-            //    return;
-            //}
-            //finally
-            //{
-            //    this.IsBusy = false;
-            //    checkingout.IsVisible = false;
-            //}
-
-            //App.OrderRepo.DeleteAllOrderDetail();
-            //await DisplayAlert("Order Completed", "Your Order has been received", "Thank You");
-            //await Navigation.PopToRootAsync();
         }
 
         private async void OnOKButtonClicked(object sender, EventArgs args) //Guest AppUser entries
@@ -759,12 +644,11 @@ namespace TakeHome.Views
                 catch (Exception err)
                 {
                     this.IsBusy = false;
-                    //await DisplayAlert("Ooops..", "Unable to verify Referrer" + err.Message, "OK");
+
                     var current = Connectivity.NetworkAccess;
 
                     if (current == NetworkAccess.Internet)
                     {
-                        // Connection to internet is available
                         await DisplayAlert("Ooops..", "Unable to verify Referrer: " + err.Message, "OK");
                     }
                     else
@@ -796,7 +680,6 @@ namespace TakeHome.Views
         {
             loadprinter.IsVisible = false;
             await Navigation.PopToRootAsync();
-            // return;
         }
 
         private async void TapGestureRecognizer_OnTapped(object sender, EventArgs e)
@@ -861,30 +744,6 @@ namespace TakeHome.Views
                 printButton1.Text = "Print";
             };
 
-            ////print customerDetail
-            //CustomerDTO printCustomer = new CustomerDTO();
-            //printCustomer = customerDetail;
-            //string cname = customerDetail.name;
-            //string ccode = customerDetail.code;
-            //string cchain = customerDetail.chain_name;
-            //string caddress = customerDetail.address;
-            //string cstate = customerDetail.city_state;
-
-            //string fullCustomer = cname + "_0A" + ccode + "_0A" + cchain + "_0A" + caddress + "_0A" + cstate;
-
-            //printButton.IsEnabled = false;
-            //Print(printerMacTest, customerDetail);
-            //if (newHeader.Posted)
-            //{
-            //    await DisplayAlert("Order Completed", "Your Order has been received", "Thank You");
-
-            //    await Navigation.PopToRootAsync();
-            //} else
-            //{
-            //    await DisplayAlert("Unposted Order", "Please make sure it gets posted.", "OK");
-            //}
-            //return true;
-
         }
 
         private void Print(string address)
@@ -904,10 +763,6 @@ namespace TakeHome.Views
             var vtotal = OrderTotal.ToString("C", cfi);
             string currentPrice = String.Format("\u20B1{0}", OrderTotal);
             int line = 420;
-            //string zpl = "^XA^LL410^FO50,250^GB700,1,3^FS^CFA,30^FO50,300^FD" + "Name: " + fullName + "^FS" +
-            //    "^FO50,340^FD" + "Date: " + newHeader_print.OrderDate.ToString("MM/dd/yyyy") + "^FS" +
-            //    "^FO50,380^FD" + "Total: " + total + "^FS^" +
-            //    "^FO50,420^GB700,1,3^FS^XZ";
 
             string zpl;
 

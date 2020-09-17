@@ -54,8 +54,7 @@ namespace TakeHome.Views
             }
 
             NavigationBarView.FirstNameLabel.Text = qty.ToString();
-           // Quantity.Text = "1";
-           // qtyframe.IsVisible = false;
+
         }
 
         public async void OnClickOrder(object sender, EventArgs e)
@@ -73,7 +72,7 @@ namespace TakeHome.Views
             }
 
             BusinessHour bhours;
-            //if Location has business hours, determine if Open to take Order
+
             if (App.BrowsingLocation.BusinessHours > 0 && orderLines.Count == 0)
             {
                 // Turn on network indicator
@@ -81,11 +80,10 @@ namespace TakeHome.Views
 
                 try
                 {
-                    //get store-hours
                     var today = DateTime.Now;
                     string Day = today.ToString("dddd");
 
-                    var storehours = await manager.GetLocationHours(App.BrowsingLocation.LocationID);
+                    var storehours = await manager.GetLocationHours(Day);
 
                     bhours = JsonConvert.DeserializeObject<BusinessHour>(storehours);
                     App.storeHours = bhours;
@@ -103,11 +101,13 @@ namespace TakeHome.Views
                         {
                             if (timeNow >=  closeTime)
                             {
-                                await DisplayAlert("Closed:", "Sorry, this store closes at " + closeTime.ToString() +".", "Ok");
+                                DateTime dtTemp = DateTime.ParseExact(bhours.CloseTime.TimeOfDay.ToString(), "HH:mm:ss", CultureInfo.InvariantCulture);
+                                await DisplayAlert("Closed:", "Sorry, this store closes at " + dtTemp.ToString("hh:mm tt") + ".", "Ok");
                             }
                             if (timeNow < openTime)
                             {
-                                await DisplayAlert("Closed:", "This store opens at " + openTime.ToString() +".", "Ok");
+                                DateTime dtTemp = DateTime.ParseExact(bhours.StartTime.TimeOfDay.ToString(), "HH:mm:ss", CultureInfo.InvariantCulture);
+                                await DisplayAlert("Closed:", "This store opens at " + dtTemp.ToString("hh:mm tt") + ".", "Ok");
                                 await Navigation.PopAsync();
                             }
                             return;
@@ -123,12 +123,10 @@ namespace TakeHome.Views
                 catch (Exception err)
                 {
                     this.IsBusy = false;
-                    // await DisplayAlert("Ooops..", "Unable to verify store hours." + err.Message, "OK");
                     var current = Connectivity.NetworkAccess;
 
                     if (current == NetworkAccess.Internet)
                     {
-                        // Connection to internet is available
                         await DisplayAlert("Ooops..", "No business hours setup for " + DateTime.Now.ToString("dddd")+"(s).", "OK");
                     }
                     else
@@ -143,7 +141,6 @@ namespace TakeHome.Views
                     this.IsBusy = false;
                 }
             }
-            //make sure selected-Item is from same Location as current Order
 
             currOrd = App.OrderRepo.GetOrderLocationID();
 
@@ -153,18 +150,6 @@ namespace TakeHome.Views
             }
             else
             {
-                if (App.BrowsingLocation.SalesOrderEntry)
-                {
-                    //make sure, currentProduct = ord.Product
-                    // LPG biz logic
-                    //if ((currOrd != null) && (currOrd.CustomerID != App.CurrentCustomer.CustomerID))
-                    //{
-                    //    App.OrderRepo.DeleteAllOrderDetail();
-                    //    //await DisplayAlert("Selected Product from " + App.CurrentProduct.Name,  "Current Order:" + currOrd.ProductName, "Ok");
-                    //    //await Navigation.PopAsync(); //Remove the page currently on top.
-                    //}
-                }
-
                 Product product = new Product();
                 product = prod;
                 OrderDetail ord = new OrderDetail();
@@ -183,7 +168,6 @@ namespace TakeHome.Views
                 decimal currencyValue;
                 CultureInfo currentCulture = CultureInfo.CreateSpecificCulture(prod.languageCode);
 
-                //
                 ord.LineAmounts = "";
 
                 if (decimal.TryParse(sprice, NumberStyles.Currency, currentCulture, out currencyValue))
@@ -206,7 +190,6 @@ namespace TakeHome.Views
                     ord.Amount = ((ord.Quantity * prod.ConversionFactor) * currencyValue);
                     ord.currencyAmount = ord.Amount.ToString("C", currentCulture);
                 }
-                //
 
                 ord.ItemName = product.Name;
 

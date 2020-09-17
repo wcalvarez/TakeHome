@@ -124,20 +124,50 @@
                         </StackLayout>
                     </Frame>
                 </StackLayout>
+                
+                
+                <!--<Frame HasShadow="false" x:Name="pickup_date" IsVisible="false"
+                      Padding="5"
+                      BorderColor="Crimson"
+                             Margin="15,0,0,0" HorizontalOptions="Start" WidthRequest="300">
+                    <StackLayout Orientation="Horizontal">
+                        <Label Text="Pickup Date: " FontAttributes="Bold"/>
+                        <DatePicker x:Name="_datePicker" HorizontalOptions="Center" 
+                    PropertyChanged="OnTimePickerPropertyChanged" />
+                    </StackLayout>
+                </Frame>
+                
                 <Frame HasShadow="false" x:Name="pickup_time" IsVisible="false"
                       Padding="5"
                       BorderColor="Crimson"
                              Margin="15,0,0,0" HorizontalOptions="Start" WidthRequest="300">
-                <StackLayout Orientation="Horizontal">
-                    <Label Text="Pickup Time:in 20 mins" FontAttributes="Bold"/>
-                    <TimePicker x:Name="_timePicker" HorizontalOptions="Center" 
-                    Time="11:00"
-                                
-                                
+                    <StackLayout Orientation="Horizontal">
+                        <Label Text="Pickup Time:in 20 mins" FontAttributes="Bold"/>
+                        <TimePicker x:Name="_timePicker" HorizontalOptions="Center" 
+                    Time="11:00"                                                              
                     Format="T"
                     PropertyChanged="OnTimePickerPropertyChanged" />
-                </StackLayout>
+                    </StackLayout>
+                </Frame>-->
+
+                <Frame HasShadow="false" x:Name="pickup_frame" IsVisible="false"
+                      Padding="5"                     
+                      BorderColor="Crimson"                      
+                             Margin="15,0,0,0" HorizontalOptions="Start" WidthRequest="300">
+                    <StackLayout>
+                        <Label Text="Select Pickup DATE and TIME:" FontAttributes="Bold"/>
+                        <StackLayout Orientation="Horizontal" Spacing="20" VerticalOptions="Start">
+                            <DatePicker x:Name="_datePicker" HorizontalOptions="Center" 
+                                PropertyChanged="OnTimePickerPropertyChanged" />
+
+                            <TimePicker x:Name="_timePicker" HorizontalOptions="Center" 
+                                Time="11:00"                                                              
+                                Format="T"
+                                PropertyChanged="OnTimePickerPropertyChanged" />
+                        </StackLayout>
+                    </StackLayout>
                 </Frame>
+
                 <StackLayout>
                     <StackLayout Orientation="Horizontal">
                         <Label Text="Referral Credits"  x:Name="reflabel" IsVisible="False"></Label>

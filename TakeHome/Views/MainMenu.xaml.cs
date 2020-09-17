@@ -26,7 +26,6 @@ namespace TakeHome.Views
                     MainMenuItems = new List<MainMenuItem>()
                 {
                     new MainMenuItem() { Title = "Store Finder", Icon = "menu_inbox.png", TargetType = typeof(LocationsPage) },
-                    //new MainMenuItem() { Title = "My Profile", Icon = "menu_stock.png", TargetType = typeof(MyProfilePage) },
                     new MainMenuItem() { Title = "Login", Icon = "menu_stock.png", TargetType = typeof(LoginPage) }
                 };
                 }

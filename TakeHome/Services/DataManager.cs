@@ -46,13 +46,13 @@ namespace TakeHome.Services
             return await client.GetStringAsync(Url2);
         }
 
-        public async Task<String> GetLocationHours(int locId)
+        public async Task<String> GetLocationHours(string WeekDay)
         {
             // TODO: use GET to retrieve locations
-            var today = DateTime.Now;
-            string WeekDay = today.ToString("dddd");
+            //var today = DateTime.Now;
+            //string WeekDay = today.ToString("dddd");
 
-            string Url2 = App.Url + "api/BusinessHours/" + WeekDay + "/" + locId.ToString();
+            string Url2 = App.Url + "api/BusinessHours/" + WeekDay + "/" + App.BrowsingLocation.LocationID.ToString();
             HttpClient client = await GetClient();
             return await client.GetStringAsync(Url2);
         }

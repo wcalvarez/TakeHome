@@ -38,7 +38,6 @@ namespace TakeHome.Views
                 return new Command((e) =>
                 {
                     var item = (e as Models.Location);
-                    // delete logic on item
                 });
             }
         }
@@ -80,12 +79,10 @@ namespace TakeHome.Views
             catch (Exception err)
             {
                 this.IsBusy = false;
-                //await DisplayAlert("Ooops..", err.Message, "OK");
                 var current = Connectivity.NetworkAccess;
 
                 if (current == NetworkAccess.Internet)
                 {
-                    // Connection to internet is available
                     await DisplayAlert("Ooops..", "Unable to Load Locations: " + err.Message, "OK");
                 }
                 else
@@ -99,14 +96,12 @@ namespace TakeHome.Views
             {
                 this.IsBusy = false;
             }
-            //   }
+ 
         }
 
         protected  override void OnAppearing()
         {
             base.OnAppearing();
-            //locations = viewModel.Locations;
- 
 
             if (locations.Count == 0)
             {
@@ -136,8 +131,6 @@ namespace TakeHome.Views
             locations = new ObservableCollection<Models.Location>();
             geo_locations = new ObservableCollection<Models.Location>();
 
-            //
-            //
             // Turn on network indicator
             this.IsBusy = true;
 
@@ -154,13 +147,10 @@ namespace TakeHome.Views
                     await DisplayAlert("Alert", "No Locations found for:" + searchQry, "OK");
                     return;
                 }
-                // locations.Clear();
 
                 foreach (Models.Location loc in locList)
                 {
-
                     locations.Add(loc);
-                    // BindingContext = locations;
                 }
                 lstView.ItemsSource = locations;
                 if (locations.Count > 0)
@@ -203,7 +193,6 @@ namespace TakeHome.Views
 
                 if (current == NetworkAccess.Internet)
                 {
-                    // Connection to internet is available
                     await DisplayAlert("Ooops..", "Unable to Load Locations: " + err.Message, "OK");
                 }
                 else
@@ -218,16 +207,14 @@ namespace TakeHome.Views
             {
                 this.IsBusy = false;
             }
+
             lstView.ItemsSource = locations;
-            //lstView.ItemsSource = geo_locations;
             if (locations.Count > 0)
             {
                 // BindingContext = locations;
             }
             else
             {
-                //zerolocations.Text = "No locations downloaded, please try again";
-                //zerolocations.IsVisible = true;
                 return;
             }
             //

@@ -22,11 +22,6 @@ namespace TakeHome.Views
         public MainMenuMaster()
         {
             InitializeComponent();
-            //
-            //
-            //this.loadMenuItems();
-            //
-            //
             BindingContext = new MainMenuMasterViewModel();
             ListView = MenuItemsListView;
         }
@@ -43,21 +38,10 @@ namespace TakeHome.Views
                         App.MenuIsPresented = false;
                         break;
 
-
-                    //case "Post Orders":
-                    //    App.NavigationPage.Navigation.PushModalAsync(new UnpostedSales());
-                    //    App.MenuIsPresented = false;
-                    //    break;
-
                     case "Showrooms/Dealers Finder":
                         App.NavigationPage.Navigation.PushAsync(new LocationsPage());
                         App.MenuIsPresented = false;
                         break;
-
-                    //case "My Store Credits":
-                    //    App.NavigationPage.Navigation.PushAsync(new StoreCreditsDashboard());
-                    //    App.MenuIsPresented = false;
-                    //    break;
 
                     case "My Profile":
                         App.NavigationPage.Navigation.PushAsync(new MyProfilePage());
@@ -69,10 +53,6 @@ namespace TakeHome.Views
                         App.MenuIsPresented = false;
                         break;
 
-                    //case "Dues & Donations":
-                    //    App.NavigationPage.Navigation.PushAsync(new MembershipDues(App.BrowsingLocation.MemberID));
-                    //    App.MenuIsPresented = false;
-                    //    break;
                     case "SignUp":
                         App.NavigationPage.Navigation.PushAsync(new SignUpPage());
                         App.MainMenu.Master = new MainMenuMaster();
@@ -153,32 +133,9 @@ namespace TakeHome.Views
                             break;
                     }
                 }
-                //foreach (AppMenuItem item in App.menuItems.ToList())
-                //{
-                //    if (item.UserStatus == "LoggedOut")
-                //    {
-                //        MainMenuMenuItem mitem = new MainMenuMenuItem();
-                //        mitem.Id = item.DisplaySequence;
-                //        mitem.Title = item.MenuItemName;
-                //        MenuItems.Add(mitem);
-                //    }
-                //}
 
                 if (App.user != null && App.user.IsLoggedIn)
                 {
-                    //foreach (AppMenuItem item in App.menuItems.ToList())
-                    //{
-                    //    if (item.UserStatus == "LoggedIn")
-                    //    {
-                    //        MainMenuMenuItem mitem = new MainMenuMenuItem();
-                    //        mitem.Id = item.DisplaySequence;
-                    //        mitem.Title = item.MenuItemName;
-                    //        MenuItems.Add(mitem);
-                    //    }
-                    //}
-                    //
-                    //
-                    //
                     switch (App.AppName)
                     {
                         case "mobileOrders":
@@ -186,7 +143,7 @@ namespace TakeHome.Views
                             MenuItems = new ObservableCollection<MainMenuMenuItem>(new[]
                             {
                                 new MainMenuMenuItem { Id = 0, Title = "Store Finder" },
-                                new MainMenuMenuItem { Id = 1, Title = "My Store Credits" },
+                               // new MainMenuMenuItem { Id = 1, Title = "My Store Credits" },
                                 new MainMenuMenuItem { Id = 2, Title = "My Profile" },
                                 new MainMenuMenuItem { Id = 3, Title =  "Change Password"},
                                 new MainMenuMenuItem { Id = 4, Title = "LogOut" }

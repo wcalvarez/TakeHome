@@ -92,31 +92,40 @@
     <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\Contents.json">
       <Visible>false</Visible>
     </ImageAsset>
-    <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\Icon167.png">
+    <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\Icon-20.png">
       <Visible>false</Visible>
     </ImageAsset>
-    <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\Icon152.png">
+    <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\Icon-20@2x.png">
       <Visible>false</Visible>
     </ImageAsset>
-    <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\Icon87.png">
+    <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\Icon-20@2x1.png">
       <Visible>false</Visible>
     </ImageAsset>
-    <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\Icon80.png">
+    <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\Icon-20@3x.png">
       <Visible>false</Visible>
     </ImageAsset>
-    <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\Icon76.png">
+    <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\Icon-29.png">
       <Visible>false</Visible>
     </ImageAsset>
-    <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\Icon60.png">
+    <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\Icon-29@2x.png">
       <Visible>false</Visible>
     </ImageAsset>
-    <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\Icon58.png">
+    <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\Icon-29@2x1.png">
       <Visible>false</Visible>
     </ImageAsset>
-    <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\Icon29.png">
+    <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\Icon-29@3x.png">
       <Visible>false</Visible>
     </ImageAsset>
-    <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\Icon20.png">
+    <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\Icon-40.png">
+      <Visible>false</Visible>
+    </ImageAsset>
+    <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\Icon-40@2x.png">
+      <Visible>false</Visible>
+    </ImageAsset>
+    <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\Icon-40@2x1.png">
+      <Visible>false</Visible>
+    </ImageAsset>
+    <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\Icon-40@3x.png">
       <Visible>false</Visible>
     </ImageAsset>
     <BundleResource Include="Resources\tab_about.png" />
@@ -128,13 +137,19 @@
     <BundleResource Include="Resources\xamarin_logo.png" />
     <BundleResource Include="Resources\xamarin_logo%402x.png" />
     <BundleResource Include="Resources\xamarin_logo%403x.png" />
+    <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\Icon-76.png">
+      <Visible>false</Visible>
+    </ImageAsset>
     <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\iTunesArtwork-1024.png">
       <Visible>false</Visible>
     </ImageAsset>
-    <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\TakeHome_icon_120-1.png">
+    <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\takehome_120x120.png">
       <Visible>false</Visible>
     </ImageAsset>
-    <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\TakeHome_icon_180.png">
+    <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\takehome_152x152.png">
+      <Visible>false</Visible>
+    </ImageAsset>
+    <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\takehome_180x180.png">
       <Visible>false</Visible>
     </ImageAsset>
     <ImageAsset Include="Assets.xcassets\AppImages.imageset\Contents.json">

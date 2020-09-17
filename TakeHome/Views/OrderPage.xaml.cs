@@ -77,7 +77,6 @@ namespace TakeHome.Views
             }
             else
             {
-
                 NoItems();
             }
         }
@@ -85,7 +84,6 @@ namespace TakeHome.Views
         private async void NoItems()
         {
             await DisplayAlert("Error:", "No items on your shopping cart.", "Ok");
-            //await Shell.Current.GoToAsync("//main/stores");
             return;
         }
 
@@ -100,16 +98,9 @@ namespace TakeHome.Views
             {
                 return; //ItemSelected is called on deselection, which results in SelectedItem being set to null
             }
-            //overlay.IsVisible = true;
 
             detailForEdit = (OrderDetail)e.SelectedItem;
             await Navigation.PushAsync(new EditOrderItemPage(detailForEdit));
-            //OrderLines = new ObservableCollection<OrderDetail>(App.OrderRepo.GetAllOrderDetails());
-            //BindingContext = OrderLines;
-            //Decimal subTotal = OrderLines.Sum(P => P.Amount);
-            //string amount = subTotal.ToString("C", currentCulture);
-
-            //Resources["SubTotal"] = "Subtotal:" + amount;
             ListView lst = (ListView)sender;
             lst.SelectedItem = null;
         }
@@ -159,7 +150,6 @@ namespace TakeHome.Views
             if (App.BrowsingLocation.Delivery)
             {
                 var action = await DisplayActionSheet("Deliver or Pickup?", "Cancel", null, "Pickup", "Deliver");
-                //Debug.WriteLine("Action: " + action);
 
                 if (action == "Deliver")
                 {
@@ -182,15 +172,7 @@ namespace TakeHome.Views
             }
             else
             {
-                //if (!App.BrowsingLocation.SalesOrderEntry)
-                //{
-                //    await Navigation.PushAsync(new AddressPage());
-                //}
-                //else
-                //{
-                    await Navigation.PushAsync(new CheckOutPage(true));
-                //}
-
+                 await Navigation.PushAsync(new CheckOutPage(true));
             }
         }
     }
