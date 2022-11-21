@@ -27,7 +27,7 @@
     <MtouchArch>x86_64</MtouchArch>
     <MtouchLink>None</MtouchLink>
     <MtouchDebug>true</MtouchDebug>
-    <CodesignKey>iPhone Developer</CodesignKey>
+    <CodesignKey>iPhone Developer: Wilfilio Alvarez (HPHLM8F99M)</CodesignKey>
     <CodesignProvision>
     </CodesignProvision>
   </PropertyGroup>
@@ -49,12 +49,13 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <MtouchArch>ARM64</MtouchArch>
-    <CodesignKey>Apple Development: Wilfilio Alvarez (HPHLM8F99M)</CodesignKey>
+    <CodesignKey>iPhone Developer: Wilfilio Alvarez (HPHLM8F99M)</CodesignKey>
     <MtouchDebug>true</MtouchDebug>
     <CodesignEntitlements>Entitlements.plist</CodesignEntitlements>
     <MtouchLink>None</MtouchLink>
     <MtouchInterpreter>-all</MtouchInterpreter>
-    <CodesignProvision>VS: WildCard Development</CodesignProvision>
+    <CodesignProvision>
+    </CodesignProvision>
     <MtouchProfiling>true</MtouchProfiling>
     <BuildIpa>false</BuildIpa>
   </PropertyGroup>

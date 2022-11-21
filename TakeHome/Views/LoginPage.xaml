@@ -26,6 +26,10 @@
             <Entry x:Name="passwordEntry" IsPassword="true" VerticalOptions="Center"/>
             <Button Text="Forgot?" Clicked="OnForgotButtonClicked" HorizontalOptions="Start" />
             <Button Text="Login" Clicked="OnLoginButtonClicked" VerticalOptions="End" BackgroundColor="#287cbe"  TextColor="White"/>
+            <Button Text="Biometric authentication" x:Name="AuthButton"    
+                Clicked="AuthButton_Clicked"    
+           HorizontalOptions="Center"    
+           VerticalOptions="CenterAndExpand" />
             <Label x:Name="messageLabel"  />
         </StackLayout>
         <!--</AbsoluteLayout>-->
