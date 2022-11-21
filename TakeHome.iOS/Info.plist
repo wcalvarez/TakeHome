@@ -35,5 +35,7 @@
 	<string>Assets.xcassets/AppIcon.appiconset</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
 	<string>Program requires GPS to track cars and job orders</string>
+	<key>NSFaceIDUsageDescription</key>  
+	<string>Authenticate with Face ID</string>  
 </dict>
 </plist>
